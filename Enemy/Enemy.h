@@ -1,0 +1,4 @@
+#ifndef MARIO_GAME_ENEMY_H
+#define MARIO_GAME_ENEMY_H
+
+#endif //MARIO_GAME_ENEMY_H
