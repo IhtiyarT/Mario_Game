@@ -19,6 +19,8 @@ add_executable(Mario_Game main.cpp
         Enemy/Enemy.cpp
         GameLogic/GameLogic.h
         GameLogic/GameLogic.cpp
-        GameLogic/map.h)
+        GameLogic/map.h
+        Creature/Creature.cpp
+        Creature/Creature.h)
 
 target_link_libraries(Mario_Game sfml-graphics sfml-window)

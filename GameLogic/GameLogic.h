@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "../Player/Player.h"
 #include <iostream>
-#include <cstdio>  /* defines FILENAME_MAX */
+#include <cstdio>  // FILENAME_MAX
 
 #ifdef WIN32
 #include <direct.h>
@@ -15,10 +15,6 @@
 #define GetCurrentDir getcwd
 #endif
 
-#define texture_size 16
-#define tile_size 32
-#define sizeX 1280
-#define sizeY 720
 
 
 void windowRendering();

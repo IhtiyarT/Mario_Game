@@ -1,15 +1,13 @@
 #include "Player.h"
 using namespace sf;
 
-Player::Player(sf::Texture &image) {
-    _sprite.setTexture(image);
-    _sprite.setScale(Vector2f(2, 2));
+Player::Player(sf::Texture &image) : Creature(image)
+{
     _hit_box = FloatRect(100, 576, tile_size - 5, tile_size);
     _sprite.setTextureRect(IntRect(112, 144, texture_size, texture_size));
 
-    _dx = _dy = 0;
+    _dx = _dy = _current_frame = 0;
     _on_ground = false;
-    _current_frame = 0;
 }
 
 void Player::update(float time, float& offsetX, float& offsetY){
@@ -28,6 +26,12 @@ void Player::update(float time, float& offsetX, float& offsetY){
                                                texture_size, texture_size));
     if(_dx < 0) _sprite.setTextureRect(IntRect(112 + 31 * int(_current_frame) + texture_size,
                                                144, -texture_size, texture_size));
+    if(_dx == 0) _sprite.setTextureRect(IntRect(82, 144,
+                                                texture_size, texture_size));
+    if(_dy != 0 && _dx < 0) _sprite.setTextureRect(IntRect(246, 144,
+                                                   -texture_size, texture_size));
+    if(_dy != 0 && _dx >= 0) _sprite.setTextureRect(IntRect(230, 144,
+                                                   texture_size, texture_size));
 
     _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top - offsetY);
 

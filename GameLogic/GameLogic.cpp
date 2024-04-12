@@ -50,10 +50,10 @@ void playerCollision(Player &p, int dir){
                 if(p._dx < 0 && dir == 0) p._hit_box.left = j * tile_size + tile_size;
                 if(p._dy > 0 && dir == 1){
                     p._hit_box.top = i * tile_size - p._hit_box.height;
-                    p._dy=0;
+                    p._dy = 0;
                     p._on_ground = true;
                 }
-                if (p._dy < 0 && dir == 1) { p._hit_box.top = i * tile_size + tile_size; p._dy = 0; }
+                if (p._dy < 0 && dir == 1) { p._hit_box.top = i * tile_size + tile_size; p._dy = 0;}
             }
             if(TileMap[i][j]=='0'){
                 TileMap[i][j] = ' ';
