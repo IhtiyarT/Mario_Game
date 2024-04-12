@@ -9,14 +9,23 @@
 
 class Player{
 public:
-    float dx, dy;
-    sf::FloatRect rect;
-    bool onGround;
-    sf::Sprite sprite;
-    float currentFrame;
-    Player(sf::Texture &image);
+    explicit Player(sf::Texture &image);
     void update(float time, float& offsetX, float& offsetY);
     friend void playerCollision(Player &, int);
+    void setDx(float dx){_dx = dx;}
+    void setDy(float dy){_dy = dy;}
+    void setOnGround(bool on_ground){_on_ground = on_ground;}
+    float getDx() const{return _dx;}
+    float getDy() const{return _dy;}
+    bool getOnGround() const{return _on_ground;}
+    sf::FloatRect getHitBox() const{return _hit_box;}
+    sf::Sprite getSprite() const{return _sprite;}
+private:
+    float _dx, _dy;
+    sf::FloatRect _hit_box;
+    bool _on_ground;
+    sf::Sprite _sprite;
+    float _current_frame;
 };
 
 

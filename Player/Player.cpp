@@ -2,32 +2,34 @@
 using namespace sf;
 
 Player::Player(sf::Texture &image) {
-    sprite.setTexture(image);
-    sprite.setScale(Vector2f(2, 2));
-    rect = FloatRect(100, 128, tile_size, tile_size);
-    sprite.setTextureRect(IntRect(112, 144, texture_size, texture_size));
+    _sprite.setTexture(image);
+    _sprite.setScale(Vector2f(2, 2));
+    _hit_box = FloatRect(100, 576, tile_size - 5, tile_size);
+    _sprite.setTextureRect(IntRect(112, 144, texture_size, texture_size));
 
-    dx = dy = 0;
-    onGround = false;
-    currentFrame = 0;
+    _dx = _dy = 0;
+    _on_ground = false;
+    _current_frame = 0;
 }
 
 void Player::update(float time, float& offsetX, float& offsetY){
-    rect.left += dx*time;
+    _hit_box.left += _dx * time;
     playerCollision(*this, 0);
 
-    if(!onGround) dy = dy + 0.0005 * time;
-    rect.top += dy*time;
-    onGround = false;
+    if(!_on_ground) _dy = _dy + 0.0005 * time;
+    _hit_box.top += _dy * time;
+    _on_ground = false;
     playerCollision(*this, 1);
 
-    currentFrame += 0.005*time;
-    if(currentFrame > 3) currentFrame -= 3;
+    _current_frame += 0.005 * time;
+    if(_current_frame > 3) _current_frame -= 3;
 
-    if(dx>0) sprite.setTextureRect(IntRect(112 + 31*int(currentFrame), 144, texture_size, texture_size));
-    if(dx<0) sprite.setTextureRect(IntRect(112 + 31*int(currentFrame)+texture_size, 144, -texture_size, texture_size));
+    if(_dx > 0) _sprite.setTextureRect(IntRect(112 + 31 * int(_current_frame), 144,
+                                               texture_size, texture_size));
+    if(_dx < 0) _sprite.setTextureRect(IntRect(112 + 31 * int(_current_frame) + texture_size,
+                                               144, -texture_size, texture_size));
 
-    sprite.setPosition(rect.left - offsetX, rect.top - offsetY);
+    _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top - offsetY);
 
-    dx = 0;
+    _dx = 0;
 }

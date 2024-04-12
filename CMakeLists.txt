@@ -8,6 +8,9 @@ find_package(SFML 2.6.1 REQUIRED graphics network audio window system)
 set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc")
 set(CMAKE_CXX_STANDARD 17)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Mario_tileset.png
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+
 add_executable(Mario_Game main.cpp
         Player/Player.h
         Player/Player.cpp
@@ -16,6 +19,6 @@ add_executable(Mario_Game main.cpp
         Enemy/Enemy.cpp
         GameLogic/GameLogic.h
         GameLogic/GameLogic.cpp
-        map.h)
+        GameLogic/map.h)
 
 target_link_libraries(Mario_Game sfml-graphics sfml-window)
