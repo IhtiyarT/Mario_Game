@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #define texture_size 16
-#define tile_size 32
+#define tile_size 48
 
 class Creature{
 protected:
@@ -14,6 +14,12 @@ protected:
     sf::FloatRect _hit_box;
 public:
     explicit Creature(sf::Texture &image);
+    void setDx(float dx){_dx = dx;}
+    void setDy(float dy){_dy = dy;}
+    float getDx() const{return _dx;}
+    float getDy() const{return _dy;}
+    sf::FloatRect getHitBox() const{return _hit_box;}
+    sf::Sprite getSprite() const{return _sprite;}
 };
 
 #endif //MARIO_GAME_CREATURE_H

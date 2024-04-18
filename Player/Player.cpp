@@ -3,10 +3,11 @@ using namespace sf;
 
 Player::Player(sf::Texture &image) : Creature(image)
 {
-    _hit_box = FloatRect(100, 576, tile_size - 5, tile_size);
+    _hit_box = FloatRect(100, 576, tile_size-5, tile_size);
     _sprite.setTextureRect(IntRect(112, 144, texture_size, texture_size));
+    _sprite.setScale(sf::Vector2f(3, 3));
 
-    _dx = _dy = _current_frame = 0;
+   // _dx = _dy = _current_frame = 0;
     _on_ground = false;
 }
 

@@ -6,13 +6,6 @@
 #define Width 82
 
 inline std::string TileMap[Height] {
-        "W                                                                                BB",
-        "W                                                                                BB",
-        "W                                                                                BB",
-        "W                                                                                BB",
-        "W                                                                                BB",
-        "W                  000                                                           BB",
-        "W                          BBBBBB                                                BB",
         "W                                                                              B BB",
         "W          C                                BBBBBBB                            B BB",
         "W                        0                                                   BBB BB",
@@ -23,10 +16,10 @@ inline std::string TileMap[Height] {
         "W                                                                                BB",
         "W                            B                                                   BB",
         "W                B                           BBBBB                               BB",
-        "W                             BBBBB                                              BB",
-        "W                           BBBBBBB      B                                       BB",
-        "W    K                    BBBBBBBBB                                              BB",
-        "W                        BBBBBBBBBB                                              BB",
+        "W                             BBBBB                  B                           BB",
+        "W                           BBBBBBB      B           B                           BB",
+        "W    K                    BBBBBBBBB                  B                           BB",
+        "W                        BBBBBBBBBB                  B                           BB",
         "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
         "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 };

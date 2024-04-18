@@ -71,25 +71,25 @@ void mapRendering(sf::RenderWindow &win, const char *cCurrentPath){
             if (TileMap[i][j] == 'B') {
                 tyle.setTextureRect(IntRect(143 - texture_size * 3, 112,
                                             texture_size, texture_size));
-                tyle.setScale(Vector2f(2.13, 2.1));
+                tyle.setScale(Vector2f(3.195, 3.15));
             }
             if (TileMap[i][j] == '0') {
                 tyle.setTextureRect(IntRect(143 - 16, 112, texture_size,
                                             texture_size));
-                tyle.setScale(Vector2f(2, 2));
+                tyle.setScale(Vector2f(3, 3));
             }
             if (TileMap[i][j] == 'K') {
                 tyle.setTextureRect(IntRect(46, 58, 47, 24));
-                tyle.setScale(Vector2f(2.7, 2.9));
+                tyle.setScale(Vector2f(4.05, 4.35));
             }
             if (TileMap[i][j] == 'C') {
                 tyle.setTextureRect(IntRect(97, 223, 45, 33));
-                tyle.setScale(Vector2f(2.5, 2.5));
+                tyle.setScale(Vector2f(3.75, 3.75));
             }
             if (TileMap[i][j] == 'W') continue;
             if (TileMap[i][j] == ' ') continue;
 
-            tyle.setPosition(j * tile_size - offsetX, i * tile_size - offsetY);
+            tyle.setPosition(j * tile_size-offsetX, i * tile_size-offsetY);
             win.draw(tyle);
         }
     }
