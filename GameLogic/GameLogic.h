@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../Player/Player.h"
+#include "../Enemy/Enemy.h"
 #include <iostream>
 #include <cstdio>  // FILENAME_MAX
 
@@ -14,8 +15,6 @@
 #include <unistd.h>
 #define GetCurrentDir getcwd
 #endif
-
-
 
 void windowRendering();
 void playerMoves(Player&);

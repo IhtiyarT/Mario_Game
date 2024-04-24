@@ -13,9 +13,10 @@ void windowRendering(){
     Clock clock;
 
     sf::RenderWindow win(sf::VideoMode(sizeX, sizeY), "Mario.exe");
-    Texture texture1;
-    texture1.loadFromFile(strcat(cCurrentPath, "/Mario_tileset.png"));
-    Player player(texture1);
+    Texture texture;
+    texture.loadFromFile(strcat(cCurrentPath, "/Mario_tileset.png"));
+    Player player(texture);
+    Enemy enemy(texture);
 
     while(win.isOpen()){
         float time = clock.getElapsedTime().asMicroseconds();
@@ -33,32 +34,13 @@ void windowRendering(){
         win.clear(Color(20, 170, 255));
 
         player.update(time, offsetX, offsetY);
+        enemy.update(time, offsetX, offsetY);
 
         mapRendering(win, cCurrentPath);
 
         win.draw(player.getSprite());
+        win.draw(enemy.getSprite());
         win.display();
-    }
-}
-
-void playerCollision(Player &p, int dir){
-    for (int i = p._hit_box.top / tile_size; i < (p._hit_box.top + p._hit_box.height) / tile_size; ++i){
-        if(i>Height) break;
-        for (int j= p._hit_box.left / tile_size; j < (p._hit_box.left + p._hit_box.width) / tile_size; ++j){
-            if(TileMap[i][j] == 'B' || TileMap[i][j] == 'W'){
-                if(p._dx > 0 && dir == 0) p._hit_box.left = j * tile_size - p._hit_box.width;
-                if(p._dx < 0 && dir == 0) p._hit_box.left = j * tile_size + tile_size;
-                if(p._dy > 0 && dir == 1){
-                    p._hit_box.top = i * tile_size - p._hit_box.height;
-                    p._dy = 0;
-                    p._on_ground = true;
-                }
-                if (p._dy < 0 && dir == 1) { p._hit_box.top = i * tile_size + tile_size; p._dy = 0;}
-            }
-            if(TileMap[i][j]=='0'){
-                TileMap[i][j] = ' ';
-            }
-        }
     }
 }
 

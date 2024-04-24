@@ -2,7 +2,7 @@
 #define MARIO_GAME_MAP_H
 #include <SFML/Graphics.hpp>
 
-#define Height 25
+#define Height 16
 #define Width 82
 
 inline std::string TileMap[Height] {
