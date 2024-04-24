@@ -16,19 +16,7 @@ void Player::update(float time, float& offsetX, float& offsetY){
     _on_ground = false;
     collision(1);
 
-    _current_frame += 0.005 * time;
-    if(_current_frame > 3) _current_frame -= 3;
-
-    if(_dx > 0) _sprite.setTextureRect(IntRect(112 + 31 * int(_current_frame), 144,
-                                               texture_size, texture_size));
-    if(_dx < 0) _sprite.setTextureRect(IntRect(112 + 31 * int(_current_frame) + texture_size,
-                                               144, -texture_size, texture_size));
-    if(_dx == 0) _sprite.setTextureRect(IntRect(82, 144,
-                                                texture_size, texture_size));
-    if(_dy != 0 && _dx < 0) _sprite.setTextureRect(IntRect(246, 144,
-                                                   -texture_size, texture_size));
-    if(_dy != 0 && _dx >= 0) _sprite.setTextureRect(IntRect(230, 144,
-                                                   texture_size, texture_size));
+    animation(time);
 
     _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top - offsetY);
 
@@ -54,4 +42,20 @@ void Player::collision(int dir) {
             }
         }
     }
+}
+
+void Player::animation(float time){
+    _current_frame += 0.005 * time;
+    if(_current_frame > 3) _current_frame -= 3;
+
+    if(_dx > 0) _sprite.setTextureRect(IntRect(112 + 31 * int(_current_frame), 144,
+                                               texture_size, texture_size));
+    if(_dx < 0) _sprite.setTextureRect(IntRect(112 + 31 * int(_current_frame) + texture_size,
+                                               144, -texture_size, texture_size));
+    if(_dx == 0) _sprite.setTextureRect(IntRect(82, 144,
+                                                texture_size, texture_size));
+    if(_dy != 0 && _dx < 0) _sprite.setTextureRect(IntRect(246, 144,
+                                                           -texture_size, texture_size));
+    if(_dy != 0 && _dx >= 0) _sprite.setTextureRect(IntRect(230, 144,
+                                                            texture_size, texture_size));
 }

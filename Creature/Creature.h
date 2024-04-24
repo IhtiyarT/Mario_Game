@@ -25,7 +25,8 @@ public:
     void setOnGround(bool on_ground){_on_ground = on_ground;}
     bool getOnGround() const{return _on_ground;}
     virtual void collision(int dir) = 0;
-   // virtual void update(float time, float& offsetX, float& offsetY) = 0;
+    virtual void update(float time, float& offsetX, float& offsetY) = 0;
+    virtual void animation(float time) = 0;
 };
 
 #endif //MARIO_GAME_CREATURE_H

@@ -4,7 +4,7 @@ using namespace sf;
 
 Enemy::Enemy(Texture &image) : Creature(image)
 {
-    _hit_box = FloatRect(100, 576, tile_size-5, tile_size);
+    _hit_box = FloatRect(150, 576, tile_size-5, tile_size);
     _sprite.setTextureRect(IntRect(0, 0, texture_size, texture_size));
     _is_alive = true;
     _dx = 0.07;
@@ -19,12 +19,22 @@ void Enemy::update(float time, float& offsetX, float& offsetY){
     _on_ground = false;
     collision(1);
 
+    if(!_is_alive) {
+        _sprite.setColor(sf::Color::Red);
+        _dx = 0;
+    }
+
+    animation(time);
+
+    _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top - offsetY);
+}
+
+void Enemy::animation(float time){
     _current_frame += time*0.005;
     if(_current_frame>2) _current_frame -= 2;
 
-    _sprite.setTextureRect(IntRect(19*int(_current_frame), 0, texture_size, texture_size));
-    _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top - offsetY);
-
+    _sprite.setTextureRect(IntRect(19*int(_current_frame), 0,
+                                   texture_size, texture_size));
 }
 
 void Enemy::collision(int dir) {

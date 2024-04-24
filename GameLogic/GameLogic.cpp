@@ -38,6 +38,8 @@ void windowRendering(){
 
         mapRendering(win, cCurrentPath);
 
+        if(player.getHitBox().intersects(enemy.getHitBox()) && enemy.getLife() && player.getDy() > 0) enemy.setLife();
+
         win.draw(player.getSprite());
         win.draw(enemy.getSprite());
         win.display();
