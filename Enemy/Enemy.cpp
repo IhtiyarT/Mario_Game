@@ -38,17 +38,27 @@ void Enemy::animation(float time){
 }
 
 void Enemy::collision(int dir) {
-    for (int i = _hit_box.top / tile_size; i < (_hit_box.top + _hit_box.height) / tile_size; ++i){
-        for (int j= _hit_box.left / tile_size; j < (_hit_box.left + _hit_box.width) / tile_size; ++j){
-            if(TileMap[i][j] == 'B' || TileMap[i][j] == 'W'){
-                if(_dx > 0 && dir == 0) {_hit_box.left = j * tile_size - _hit_box.width;_dx *= -1; }
-                else if(_dx < 0 && dir == 0) {_hit_box.left = j * tile_size + tile_size; _dx *= -1; }
-                if(_dy > 0 && dir == 1){
+    for (size_t i = _hit_box.top / tile_size; i < (_hit_box.top + _hit_box.height) / tile_size; ++i){
+        if(i>=Height) continue;
+        for (size_t j= _hit_box.left / tile_size; j < (_hit_box.left + _hit_box.width) / tile_size; ++j){
+            if(TileMap[i][j] == 'B' || TileMap[i][j] == 'W' || TileMap[i][j] == 'T' || TileMap[i][j] == 't') {
+                if (_dx > 0 && dir == 0) {
+                    _hit_box.left = j * tile_size - _hit_box.width;
+                    _dx *= -1;
+                }
+                else if (_dx < 0 && dir == 0) {
+                    _hit_box.left = j * tile_size + tile_size;
+                    _dx *= -1;
+                }
+                if (_dy > 0 && dir == 1) {
                     _hit_box.top = i * tile_size - _hit_box.height;
                     _dy = 0;
                     _on_ground = true;
                 }
-                if (_dy < 0 && dir == 1) { _hit_box.top = i * tile_size + tile_size; _dy = 0;}
+                if (_dy < 0 && dir == 1) {
+                    _hit_box.top = i * tile_size + tile_size;
+                    _dy = 0;
+                }
             }
         }
     }

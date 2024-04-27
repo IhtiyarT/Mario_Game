@@ -50,28 +50,44 @@ void mapRendering(sf::RenderWindow &win, const char *cCurrentPath){
     Texture texture;
     texture.loadFromFile(cCurrentPath);
     Sprite tyle(texture);
-    for(int i=0;i<Height; ++i) {
-        for (int j = 0; j < Width; ++j) {
+    for(size_t i=0;i<Height; ++i) {
+        for (size_t j = 0; j < Width; ++j) {
             if (TileMap[i][j] == 'B') {
                 tyle.setTextureRect(IntRect(143 - texture_size * 3, 112,
                                             texture_size, texture_size));
-                tyle.setScale(Vector2f(3.195, 3.15));
+                tyle.setScale(Vector2f(2.13, 2.1));
             }
             if (TileMap[i][j] == '0') {
-                tyle.setTextureRect(IntRect(143 - 16, 112, texture_size,
+                tyle.setTextureRect(IntRect(127, 112, texture_size+1,
                                             texture_size));
-                tyle.setScale(Vector2f(3, 3));
+                tyle.setScale(Vector2f(2.13, 2.1));
             }
             if (TileMap[i][j] == 'K') {
                 tyle.setTextureRect(IntRect(46, 58, 47, 24));
-                tyle.setScale(Vector2f(4.05, 4.35));
+                tyle.setScale(Vector2f(2, 2));
+                tyle.setPosition(j * tile_size-offsetX, i * tile_size-offsetY-8);
+                win.draw(tyle);
+                continue;
             }
             if (TileMap[i][j] == 'C') {
                 tyle.setTextureRect(IntRect(97, 223, 45, 33));
-                tyle.setScale(Vector2f(3.75, 3.75));
+                tyle.setScale(Vector2f(2.5,  2.5));
+            }
+            if (TileMap[i][j] == 'G'){
+                tyle.setTextureRect(IntRect(145, 222, 76, 34));
+                tyle.setScale(Vector2f(2.5, 2.5));
+            }
+            if (TileMap[i][j] == 'T'){
+                tyle.setTextureRect(IntRect(0, 48, 32, 24));
+                tyle.setScale(Vector2f(2.5, 2.66));
+            }
+            if (TileMap[i][j] == 't'){
+                tyle.setTextureRect(IntRect(0, 72, 32, 24));
+                tyle.setScale(Vector2f(2.5, 2.66));
             }
             if (TileMap[i][j] == 'W') continue;
             if (TileMap[i][j] == ' ') continue;
+
 
             tyle.setPosition(j * tile_size-offsetX, i * tile_size-offsetY);
             win.draw(tyle);
@@ -91,5 +107,4 @@ void playerMoves(Player &p){
     }
 
     if(p.getHitBox().left > sizeX / 2) offsetX = p.getHitBox().left - sizeX / 2;
-   // if(p._hit_box.top > sizeY/2) offsetY = p._hit_box.top - sizeY/2;
 }

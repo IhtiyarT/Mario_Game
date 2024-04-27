@@ -24,10 +24,10 @@ void Player::update(float time, float& offsetX, float& offsetY){
 }
 
 void Player::collision(int dir) {
-    for (int i = _hit_box.top / tile_size; i < (_hit_box.top + _hit_box.height) / tile_size; ++i){
-        if(i>Height) break;
-        for (int j= _hit_box.left / tile_size; j < (_hit_box.left + _hit_box.width) / tile_size; ++j){
-            if(TileMap[i][j] == 'B' || TileMap[i][j] == 'W'){
+    for (size_t i = _hit_box.top / tile_size; i < (_hit_box.top + _hit_box.height) / tile_size; ++i){
+        for (size_t j = _hit_box.left / tile_size; j < (_hit_box.left + _hit_box.width) / tile_size; ++j){
+            if(i>=Height || j>=Width) break;
+            if(TileMap[i][j] == 'B' || TileMap[i][j] == 'W' || TileMap[i][j] == 'T' || TileMap[i][j] == 't' || TileMap[i][j] == '0'){
                 if(_dx > 0 && dir == 0) _hit_box.left = j * tile_size - _hit_box.width;
                 if(_dx < 0 && dir == 0) _hit_box.left = j * tile_size + tile_size;
                 if(_dy > 0 && dir == 1){
@@ -37,9 +37,9 @@ void Player::collision(int dir) {
                 }
                 if (_dy < 0 && dir == 1) { _hit_box.top = i * tile_size + tile_size; _dy = 0;}
             }
-            if(TileMap[i][j]=='0'){
-                TileMap[i][j] = ' ';
-            }
+//            if(TileMap[i][j]=='0'){
+//                TileMap[i][j] = ' ';
+//            }
         }
     }
 }

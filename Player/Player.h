@@ -4,7 +4,7 @@
 #include "../Creature/Creature.h"
 
 #define sizeX 1280
-#define sizeY 720
+#define sizeY 704
 
 class Player : public Creature
 {

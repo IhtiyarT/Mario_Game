@@ -5,7 +5,7 @@
 #include "../GameLogic/map.h"
 
 #define texture_size 16
-#define tile_size 48
+#define tile_size 32
 
 class Creature{
 protected:

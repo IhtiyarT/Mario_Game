@@ -2,26 +2,32 @@
 #define MARIO_GAME_MAP_H
 #include <SFML/Graphics.hpp>
 
-#define Height 16
-#define Width 82
+#define Height 24
+#define Width 263
 
 inline std::string TileMap[Height] {
-        "W                                                                              B BB",
-        "W          C                                BBBBBBB                            B BB",
-        "W                        0                                                   BBB BB",
-        "W                     BBBBB                                                      BB",
-        "W                                                                               BB",
-        "W               B              BBBBBB                                            BB",
-        "W              B          00                          BBBBBBBBB                  BB",
-        "W                                                                                BB",
-        "W                            B                                                   BB",
-        "W                B                           BBBBB                               BB",
-        "W                             BBBBB                  B                           BB",
-        "W                           BBBBBBB      B           B                           BB",
-        "W    K                    BBBBBBBBB                  B                           BB",
-        "W                        BBBBBBBBBB                  B                           BB",
-        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
-        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+    "W                                                                                                                                                                                                                                                                    W",
+    "W                                                                                                                                                                                                                                                                    W",
+    "W                                                                                                                                                                                                                                                                    W",
+    "W                                                                                                                                                                                                                                                                    W",
+    "W                                                                                                                                                                                                                                                                    W",
+    "W                                                                                                                                                                                                                                                                    B",
+    "W          C                                                                                                                                                                                                                                                         B",
+    "W                                                                                                                                                                                                                                                                    B",
+    "W                                                                                                                                                                                                                                                                    B",
+    "W                                                                                                                                                                                                                                                                    B",
+    "W                                                                                                                                                                                                                                                                   B",
+    "W                   0                                                          BBBBBBBB   BBB0              0           BBB    B00B                                                         BB                                                                      B",
+    "W                                                                                                                                                                                          BBB                                                                      BB",
+    "W                                                                                                                                                                                         BBBB                                                                      BB",
+    "W                                              TW        TW                                                                                                                              BBBBB                                                                      BB",
+    "W             0   B0B0B                        WW        WW                 B0B              B     BB    0  0  0     B          BB      B  B          BB  B            BB0B             BBBBBB                                                                      BB",
+    "W                                     TW       tW        tW                                                                            BB  BB        BBB  BB                           BBBBBBB                                                                      BB",
+    "W      G                    TW        WW       WW        WW                                                                           BBB  BBB      BBBB  BBB     TW              TW  BBBBBBBB                                                                      BB",
+    "W                           WW        tW       tW        tW                                                                          BBBB  BBBB    BBBBB  BBBB    WW              WW BBBBBBBBB                                                                       BB",
+    "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB  BBBBBBBBBBBBBB   BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB  BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+    "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB  BBBBBBBBBBBBBB   BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB  BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+    "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB  BBBBBBBBBBBBBB   BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB  BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
 };
 
 
