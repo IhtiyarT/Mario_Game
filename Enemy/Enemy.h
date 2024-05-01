@@ -7,7 +7,7 @@ class Enemy : public Creature
 {
 public:
     explicit Enemy(sf::Texture &image);
-    void update(float time, float& offsetX, float& offsetY)override;
+    void update(float time, float& offsetX)override;
     void collision(int dir)override;
     void animation(float time)override;
     bool getLife()const {return _is_alive;}

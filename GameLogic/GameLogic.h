@@ -17,7 +17,6 @@
 #endif
 
 void windowRendering();
-void playerMoves(Player&);
 void mapRendering(sf::RenderWindow &win, const char *cCurrentPath);
 
 #endif //MARIO_GAME_GAMELOGIC_H

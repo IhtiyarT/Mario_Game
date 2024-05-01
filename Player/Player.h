@@ -10,9 +10,10 @@ class Player : public Creature
 {
 public:
     explicit Player(sf::Texture &image);
-    void update(float time, float& offsetX, float& offsetY)override;
+    void update(float time, float& offsetX)override;
     void collision(int dir)override;
     void animation(float time)override;
+    void playerMoves(float &offsetX);
 };
 
 #endif //MARIO_GAME_PLAYER_H

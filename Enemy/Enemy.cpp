@@ -10,7 +10,7 @@ Enemy::Enemy(Texture &image) : Creature(image)
     _dx = 0.07;
 }
 
-void Enemy::update(float time, float& offsetX, float& offsetY){
+void Enemy::update(float time, float& offsetX){
     _hit_box.left += _dx*time;
     collision(0);
 
@@ -26,7 +26,7 @@ void Enemy::update(float time, float& offsetX, float& offsetY){
 
     animation(time);
 
-    _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top - offsetY);
+    _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top);
 }
 
 void Enemy::animation(float time){
