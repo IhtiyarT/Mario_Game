@@ -10,6 +10,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Mario_tileset.png
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Tileset.png
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 add_executable(Mario_Game main.cpp
         Player/Player.h
