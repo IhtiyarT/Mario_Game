@@ -41,7 +41,8 @@ void Enemy::collision(int dir) {
     for (size_t i = _hit_box.top / tile_size; i < (_hit_box.top + _hit_box.height) / tile_size; ++i){
         if(i>=Height) continue;
         for (size_t j= _hit_box.left / tile_size; j < (_hit_box.left + _hit_box.width) / tile_size; ++j){
-            if(TileMap[i][j] == 'B' || TileMap[i][j] == 'W' || TileMap[i][j] == 'T' || TileMap[i][j] == 't') {
+            if(TileMap[i][j] == 'B' || TileMap[i][j] == 'W' || TileMap[i][j] == 'T' || TileMap[i][j] == 't'
+               || TileMap[i][j] == '0' || TileMap[i][j] == 's' || TileMap[i][j] == 'b'){
                 if (_dx > 0 && dir == 0) {
                     _hit_box.left = j * tile_size - _hit_box.width;
                     _dx *= -1;
