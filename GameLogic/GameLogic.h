@@ -17,6 +17,6 @@
 #endif
 
 void windowRendering();
-void mapRendering(sf::RenderWindow &win, const char *cCurrentPath);
+void mapRendering(sf::RenderWindow &win, std::string current_path);
 
 #endif //MARIO_GAME_GAMELOGIC_H

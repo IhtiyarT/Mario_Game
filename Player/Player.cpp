@@ -5,6 +5,7 @@ Player::Player(sf::Texture &image) : Creature(image)
 {
     _hit_box = FloatRect(100, 570, tile_size-5, tile_size);
     _sprite.setTextureRect(IntRect(112, 144, texture_size, texture_size));
+    addObserver(&sounds);
 }
 
 void Player::update(float time, float& offsetX){
@@ -12,7 +13,7 @@ void Player::update(float time, float& offsetX){
     collision(0);
 
     if(!_on_ground) _dy += 0.002f * time;
-    _hit_box.top += _dy * time / 14;
+    _hit_box.top += _dy * 2;
     _on_ground = false;
     collision(1);
 
@@ -35,7 +36,7 @@ void Player::collision(int dir) {
                     _dy = 0;
                     _on_ground = true;
                 }
-                if(_dy < 0 && dir == 1) { _hit_box.top = i * tile_size + _hit_box.height; _dy = 0;}
+                if(_dy < 0 && dir == 1) { _hit_box.top = i * tile_size + _hit_box.height; _dy = -0.0001;}
             }
         }
     }
@@ -81,6 +82,7 @@ void Player::playerMoves(float &offsetX){
     if(Keyboard::isKeyPressed(Keyboard::Up) && _on_ground){
         _dy -= 3.6;
         _on_ground = false;
+        notify(*this, oEvent::PLAYER_JUMP);
     }
 
     if(_hit_box.left > sizeX / 2 && offsetX < _hit_box.left - sizeX/2) offsetX = _hit_box.left - sizeX / 2;

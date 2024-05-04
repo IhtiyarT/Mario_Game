@@ -15,7 +15,7 @@ void Enemy::update(float time, float& offsetX){
     collision(0);
 
     if(!_on_ground) _dy = _dy + 0.0005 * time;
-    _hit_box.top += _dy*time/2;
+    _hit_box.top += _dy;
     _on_ground = false;
     collision(1);
 
