@@ -1,28 +1,36 @@
 #include "GameLogic.h"
-#include "map.h"
 using namespace sf;
-
-float offsetX=34;
-
 
 void windowRendering(){
     char cCurrentPath[FILENAME_MAX];
     GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
     std::string current_path = cCurrentPath;
 
-    Clock clock;
-
     sf::RenderWindow win(sf::VideoMode(sizeX, sizeY), "Mario.exe");
     Texture texture;
     texture.loadFromFile(current_path + "/Mario_tileset.png");
     std::cout << current_path;
     Player player(texture);
-    Enemy enemy(texture);
 
+    std::list<Creature*> entities;
+    std::list<Creature*>::iterator iter;
+    std::list<Creature*> temp;
+    getEnemies(entities, texture);
+
+    sf::Music music;
+    music.openFromFile("assets/sound/bgm.wav");
+    music.play();
+    music.setLoop(true);
+
+    int counter = 0;
+    Clock clock;
+    double previous = clock.getElapsedTime().asMilliseconds();
+    double lag = 0.0;
     while(win.isOpen()){
-        float time = clock.getElapsedTime().asMicroseconds();
-        time /= 450;
-        clock.restart();
+        double current = clock.getElapsedTime().asMilliseconds();
+        double elapsed = current - previous;
+        previous = current;
+        lag += elapsed;
         Event event;
         while (win.pollEvent(event))
         {
@@ -30,24 +38,43 @@ void windowRendering(){
                 win.close();
         }
 
-        player.playerMoves(offsetX);
-
         win.clear(Color(20, 170, 255));
 
-        player.update(time, offsetX);
-        enemy.update(time, offsetX);
+        while(lag >= MS_PER_UPDATE) {
+            player.update(offsetX);
+            for(iter=entities.begin();iter!=entities.end();){
+                Creature *b = *iter;
+                b->update(offsetX);
+                if(!b->getLife()){iter = entities.erase(iter);}
+                else ++iter;
+            }
+            lag -= MS_PER_UPDATE;
+
+        }
 
         mapRendering(win, current_path);
 
-        if(player.getHitBox().intersects(enemy.getHitBox()) && enemy.getLife() && player.getDy() > 0) enemy.setLife();
-
+        for(iter=entities.begin();iter!=entities.end();++iter) {
+            win.draw((*iter)->getSprite());
+            if (player.getHitBox().intersects((*iter)->getHitBox()) && (*iter)->getLife() && player.getDy() > 0){
+                (*iter)->setLife(false);
+                (*iter)->setDx(0);
+                player.setDy(-0.2);
+                temp.push_back(*iter);
+            }
+        }
         win.draw(player.getSprite());
-        win.draw(enemy.getSprite());
+        if(!temp.empty()) {
+            for (iter = temp.begin(); iter != temp.end(); ++iter) win.draw((*iter)->getSprite());
+            ++counter;
+        }
+        if(counter == 15) { temp.pop_front(); counter = 0;}
+
         win.display();
     }
 }
 
-void mapRendering(sf::RenderWindow &win, std::string current_path){
+void mapRendering(sf::RenderWindow &win, const std::string &current_path){
     Texture main_texture;
     Texture sec_texture;
 
@@ -77,12 +104,12 @@ void mapRendering(sf::RenderWindow &win, std::string current_path){
             if (TileMap[i][j] == 'b') {
                 tyle.setTextureRect(IntRect(143, 112,
                                             texture_size, texture_size));
-                tyle.setScale(Vector2f(2.13, 2.1));
+                tyle.setScale(Vector2f(2.1, 2.1));
             }
             if (TileMap[i][j] == '0') {
                 tyle.setTextureRect(IntRect(127, 112, texture_size+1,
                                             texture_size));
-                tyle.setScale(Vector2f(2.13, 2.1));
+                tyle.setScale(Vector2f(2.1, 2.1));
             }
             if (TileMap[i][j] == 'k') {
                 tyle.setTextureRect(IntRect(46, 58, 47, 24));
@@ -155,7 +182,7 @@ void mapRendering(sf::RenderWindow &win, std::string current_path){
             }
             if (TileMap[i][j] == 'W') continue;
             if (TileMap[i][j] == ' ') continue;
-
+            if (TileMap[i][j] == 'g') continue;
 
             tyle.setPosition(j * tile_size-offsetX, i * tile_size);
             win.draw(tyle);
@@ -163,4 +190,12 @@ void mapRendering(sf::RenderWindow &win, std::string current_path){
     }
 }
 
+void getEnemies(std::list<Creature*> &list, const sf::Texture &texture){
+    for(int i=0;i<Height;++i){
+        for(int j=0;j<Width;++j){
+            if(TileMap[i][j] == 'g') list.push_back(new Enemy(texture, "Mushroom", j*tile_size,
+                                          i*tile_size, tile_size-5, 0, 0));
+        }
+    }
+}
 

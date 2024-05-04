@@ -8,16 +8,18 @@ Player::Player(sf::Texture &image) : Creature(image)
     addObserver(&sounds);
 }
 
-void Player::update(float time, float& offsetX){
-    _hit_box.left += _dx * time;
+void Player::update(float& offsetX){
+    playerMoves(offsetX);
+
+    _hit_box.left += _dx;
     collision(0);
 
-    if(!_on_ground) _dy += 0.002f * time;
-    _hit_box.top += _dy * 2;
+    if(!_on_ground) _dy += 0.15;
+    _hit_box.top += _dy;
     _on_ground = false;
     collision(1);
 
-    animation(time);
+    animation();
 
     _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top);
 
@@ -43,8 +45,8 @@ void Player::collision(int dir) {
 }
 
 
-void Player::animation(float time){
-    _current_frame += 0.005f * time;
+void Player::animation(){
+    _current_frame += 0.08;
     if(_current_frame > 3) _current_frame -= 3;
 
     if(_dx > 0 && Keyboard::isKeyPressed(sf::Keyboard::Left)) _sprite.setTextureRect(IntRect(201,
@@ -66,21 +68,21 @@ void Player::animation(float time){
 void Player::playerMoves(float &offsetX){
     if(_hit_box.left <= offsetX) { _hit_box.left = offsetX; _dx = 0; }
     else if(Keyboard::isKeyPressed(Keyboard::Left)){
-        if(_dx > -0.17) _dx -= 0.000525;
+        if(_dx > -3.5) _dx -= 0.05;
     }
     else if(_dx<0){
-        _dx += 0.0008;
+        _dx += 0.03;
         if(_dx > 0) _dx = 0;
     }
     if(Keyboard::isKeyPressed(Keyboard::Right)){
-        if(_dx < 0.17) _dx += 0.000525;
+        if(_dx < 3.5) _dx += 0.05;
     }
     else if(_dx>0){
-        _dx -= 0.0008;
+        _dx -= 0.03;
         if(_dx < 0) _dx = 0;
     }
     if(Keyboard::isKeyPressed(Keyboard::Up) && _on_ground){
-        _dy -= 3.6;
+        _dy -= 7.2;
         _on_ground = false;
         notify(*this, oEvent::PLAYER_JUMP);
     }

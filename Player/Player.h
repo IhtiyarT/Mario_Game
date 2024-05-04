@@ -11,9 +11,10 @@ class Player : public Creature, public Subject
 {
 public:
     explicit Player(sf::Texture &image);
-    void update(float time, float& offsetX)override;
+    ~Player()override{ removeObserver(&sounds);}
+    void update(float& offsetX)override;
     void collision(int dir)override;
-    void animation(float time)override;
+    void animation()override;
     void playerMoves(float &offsetX);
 private:
     Sounds sounds;

@@ -7,7 +7,8 @@
 
 enum struct oEvent
 {
-    PLAYER_JUMP
+    PLAYER_JUMP,
+    MUSHROOM_DIED
 };
 
 class Observer {

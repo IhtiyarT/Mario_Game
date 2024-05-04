@@ -7,6 +7,7 @@ class Sounds : public Observer
 {
 public:
     void onNotify(const Creature &creature, oEvent event)override;
+    ~Sounds()override {sound.stop();}
 private:
     sf::SoundBuffer sound_buf;
     sf::Sound sound;

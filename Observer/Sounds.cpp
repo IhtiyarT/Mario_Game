@@ -8,6 +8,11 @@ void Sounds::onNotify(const Creature &creature, oEvent event){
             sound.setBuffer(sound_buf);
             sound.play();
             return;
+        case oEvent::MUSHROOM_DIED:
+            sound_buf.loadFromFile(path + "hit.wav");
+            sound.setBuffer(sound_buf);
+            sound.play();
+            return;
     }
 }
 

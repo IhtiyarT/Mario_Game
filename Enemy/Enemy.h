@@ -2,18 +2,19 @@
 #define MARIO_GAME_ENEMY_H
 
 #include "../Creature/Creature.h"
+#include "../Observer/Sounds.h"
 
-class Enemy : public Creature
+class Enemy : public Creature, public Subject
 {
 public:
-    explicit Enemy(sf::Texture &image);
-    void update(float time, float& offsetX)override;
+    explicit Enemy(const sf::Texture &image, const std::string &name, int left, int top, int width, int x, int y);
+    ~Enemy(){ removeObserver(&sound);}
+    void update(float& offsetX)override;
     void collision(int dir)override;
-    void animation(float time)override;
-    bool getLife()const {return _is_alive;}
-    void setLife(bool life=false) {_is_alive = life;}
+    void animation()override;
 protected:
-    bool _is_alive;
+    std::string _name;
+    Sounds sound;
 };
 
 #endif //MARIO_GAME_ENEMY_H
