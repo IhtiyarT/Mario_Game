@@ -30,7 +30,7 @@ void Player::collision(int dir) {
         for (size_t j = _hit_box.left / tile_size; j < (_hit_box.left + _hit_box.width) / tile_size; ++j){
             if(i>=Height || j>=Width) break;
             if(TileMap[i][j] == 'B' || TileMap[i][j] == 'W' || TileMap[i][j] == 'T' || TileMap[i][j] == 't'
-                       || TileMap[i][j] == '0' || TileMap[i][j] == 's' || TileMap[i][j] == 'b'){
+                       || TileMap[i][j] == 's'){
                 if(_dx > 0 && dir == 0) { _hit_box.left = j * tile_size - _hit_box.width; if(_dx > 0.005) _dx -= 0.005;}
                 if(_dx < 0 && dir == 0) { _hit_box.left = j * tile_size + tile_size; if(_dx < -0.005) _dx += 0.005;}
                 if(_dy > 0 && dir == 1) {
@@ -38,7 +38,7 @@ void Player::collision(int dir) {
                     _dy = 0;
                     _on_ground = true;
                 }
-                if(_dy < 0 && dir == 1) { _hit_box.top = i * tile_size + _hit_box.height; _dy = -0.0001;}
+                //if(_dy < 0 && dir == 1) { _hit_box.top = i * tile_size + _hit_box.height; _dy = -0.0001;}
             }
         }
     }

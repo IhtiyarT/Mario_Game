@@ -31,6 +31,8 @@ add_executable(Mario_Game main.cpp
         Observer/Observer.cpp
         Observer/Observer.h
         Observer/Sounds.cpp
-        Observer/Sounds.h)
+        Observer/Sounds.h
+        Blocks/Blocks.cpp
+        Blocks/Blocks.h)
 
 target_link_libraries(Mario_Game sfml-graphics sfml-window sfml-audio)

@@ -2,14 +2,10 @@
 using namespace sf;
 
 void windowRendering(){
-    char cCurrentPath[FILENAME_MAX];
-    GetCurrentDir(cCurrentPath, sizeof(cCurrentPath));
-    std::string current_path = cCurrentPath;
 
     sf::RenderWindow win(sf::VideoMode(sizeX, sizeY), "Mario.exe");
     Texture texture;
-    texture.loadFromFile(current_path + "/Mario_tileset.png");
-    std::cout << current_path;
+    texture.loadFromFile("Mario_tileset.png");
     Player player(texture);
 
     std::list<Creature*> entities;
@@ -52,15 +48,21 @@ void windowRendering(){
 
         }
 
-        mapRendering(win, current_path);
+        mapRendering(win);
 
         for(iter=entities.begin();iter!=entities.end();++iter) {
             win.draw((*iter)->getSprite());
-            if (player.getHitBox().intersects((*iter)->getHitBox()) && (*iter)->getLife() && player.getDy() > 0){
-                (*iter)->setLife(false);
-                (*iter)->setDx(0);
-                player.setDy(-0.2);
-                temp.push_back(*iter);
+            if (player.getHitBox().intersects((*iter)->getHitBox()) && (*iter)->getLife()){
+                if((*iter)->getName() == "Mushroom") {
+                    (*iter)->setLife(false);
+                    (*iter)->setDx(0);
+                    player.setDy(-0.2);
+                    temp.push_back(*iter);
+                }
+                else if((*iter)->getName() == "Brick" || (*iter)->getName() == "Lucky" ) {
+                    (*iter)->setDy(-5);
+                    player.setDy(3);
+                }
             }
         }
         win.draw(player.getSprite());
@@ -68,22 +70,22 @@ void windowRendering(){
             for (iter = temp.begin(); iter != temp.end(); ++iter) win.draw((*iter)->getSprite());
             ++counter;
         }
-        if(counter == 15) { temp.pop_front(); counter = 0;}
+        if(counter == 15) { delete *temp.begin(); temp.pop_front(); counter = 0;}
 
         win.display();
     }
 }
 
-void mapRendering(sf::RenderWindow &win, const std::string &current_path){
+void mapRendering(sf::RenderWindow &win){
     Texture main_texture;
     Texture sec_texture;
 
     Image tile_set;
-    tile_set.loadFromFile(current_path + "/Tileset.png");
+    tile_set.loadFromFile("Tileset.png");
     tile_set.createMaskFromColor(sf::Color(148, 148, 255));
     tile_set.createMaskFromColor(sf::Color(0, 41, 140));
 
-    main_texture.loadFromFile(current_path + "/Mario_tileset.png");
+    main_texture.loadFromFile("Mario_tileset.png");
     sec_texture.loadFromImage(tile_set);
 
     Sprite tyle(main_texture);
@@ -101,16 +103,16 @@ void mapRendering(sf::RenderWindow &win, const std::string &current_path){
                                             texture_size, texture_size));
                 tyle.setScale(Vector2f(2.13, 2.1));
             }
-            if (TileMap[i][j] == 'b') {
-                tyle.setTextureRect(IntRect(143, 112,
-                                            texture_size, texture_size));
-                tyle.setScale(Vector2f(2.1, 2.1));
-            }
-            if (TileMap[i][j] == '0') {
-                tyle.setTextureRect(IntRect(127, 112, texture_size+1,
-                                            texture_size));
-                tyle.setScale(Vector2f(2.1, 2.1));
-            }
+//            if (TileMap[i][j] == 'b') {
+//                tyle.setTextureRect(IntRect(143, 112,
+//                                            texture_size, texture_size));
+//                tyle.setScale(Vector2f(2.1, 2.1));
+//            }
+//            if (TileMap[i][j] == '0') {
+//                tyle.setTextureRect(IntRect(127, 112, texture_size+1,
+//                                            texture_size));
+//                tyle.setScale(Vector2f(2.1, 2.1));
+//            }
             if (TileMap[i][j] == 'k') {
                 tyle.setTextureRect(IntRect(46, 58, 47, 24));
                 tyle.setScale(Vector2f(2, 2));
@@ -180,7 +182,7 @@ void mapRendering(sf::RenderWindow &win, const std::string &current_path){
                 tyle.setTextureRect(IntRect(0, 72, 32, 24));
                 tyle.setScale(Vector2f(2.5, 2.66));
             }
-            if (TileMap[i][j] == 'W') continue;
+            if (TileMap[i][j] == 'W' || TileMap[i][j] == '0' || TileMap[i][j] == 'b') continue;
             if (TileMap[i][j] == ' ') continue;
             if (TileMap[i][j] == 'g') continue;
 
@@ -195,6 +197,8 @@ void getEnemies(std::list<Creature*> &list, const sf::Texture &texture){
         for(int j=0;j<Width;++j){
             if(TileMap[i][j] == 'g') list.push_back(new Enemy(texture, "Mushroom", j*tile_size,
                                           i*tile_size, tile_size-5, 0, 0));
+            else if(TileMap[i][j] == 'b') list.push_back(new Block(texture, "Brick", j*tile_size, i*tile_size));
+            else if(TileMap[i][j] == '0') list.push_back(new Block(texture, "Lucky", j*tile_size, i*tile_size));
         }
     }
 }

@@ -9,4 +9,5 @@ Creature::Creature(const sf::Texture &image){
     _current_frame = 0;
     _on_ground = false;
     _is_alive = true;
+    _name = "";
 }

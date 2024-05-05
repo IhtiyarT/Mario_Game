@@ -13,7 +13,6 @@ public:
     void collision(int dir)override;
     void animation()override;
 protected:
-    std::string _name;
     Sounds sound;
 };
 
