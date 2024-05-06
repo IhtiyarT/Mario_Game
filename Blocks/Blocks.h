@@ -10,7 +10,7 @@ public:
     Block(const sf::Texture &texture, const std::string &name, float left, float top);
     void update(float &offsetX)override;
     void collision(int dir)override{}
-    void animation()override{}
+    void animation()override;
 private:
     int _tick_counter;
     float _top, _left;

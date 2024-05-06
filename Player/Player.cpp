@@ -9,8 +9,6 @@ Player::Player(sf::Texture &image) : Creature(image)
 }
 
 void Player::update(float& offsetX){
-
-
     _hit_box.left += _dx;
     collision(0);
 

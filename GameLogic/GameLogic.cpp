@@ -4,14 +4,23 @@ using namespace sf;
 void windowRendering(){
 
     sf::RenderWindow win(sf::VideoMode(sizeX, sizeY), "Mario.exe");
-    Texture texture;
-    texture.loadFromFile("Mario_tileset.png");
-    Player player(texture);
+    Texture main_texture;
+    Texture sec_texture;
+
+    Image tile_set;
+    tile_set.loadFromFile("Tileset.png");
+    tile_set.createMaskFromColor(sf::Color(148, 148, 255));
+    tile_set.createMaskFromColor(sf::Color(0, 41, 140));
+
+    main_texture.loadFromFile("Mario_tileset.png");
+    sec_texture.loadFromImage(tile_set);
+
+    Player player(main_texture);
 
     std::list<Creature*> entities;
     std::list<Creature*>::iterator iter;
     std::list<Creature*> temp;
-    getEnemies(entities, texture);
+    getEntities(entities, main_texture, sec_texture);
 
     sf::Music music;
     music.openFromFile("assets/sound/bgm.wav");
@@ -39,9 +48,14 @@ void windowRendering(){
         while(lag >= MS_PER_UPDATE) {
             for(iter=entities.begin();iter!=entities.end();++iter){
                 if(player.getHitBox().intersects((*iter)->getHitBox())) {
-                    if ((*iter)->getName() == "Brick" || (*iter)->getName() == "Lucky") {
+                    if ((*iter)->getName() == "Brick") {
                         (*iter)->setDy(-6);
                         player.turnBack();
+                    }
+                    else if((*iter)->getName() == "Lucky"){
+                        if((*iter)->getLife()) (*iter)->setDy(-6);
+                        player.turnBack();
+                        (*iter)->setLife(false);
                     }
                 }
             }
@@ -49,13 +63,13 @@ void windowRendering(){
             for(iter=entities.begin();iter!=entities.end();){
                 Creature *b = *iter;
                 b->update(offsetX);
-                if(!b->getLife()){iter = entities.erase(iter);}
+                if(!b->getLife() && b->getName() != "Lucky"){iter = entities.erase(iter);}
                 else ++iter;
             }
             lag -= MS_PER_UPDATE;
         }
 
-        mapRendering(win);
+        mapRendering(win, main_texture, sec_texture);
 
         for(iter=entities.begin();iter!=entities.end();++iter) {
             win.draw((*iter)->getSprite());
@@ -74,24 +88,13 @@ void windowRendering(){
             for (iter = temp.begin(); iter != temp.end(); ++iter) win.draw((*iter)->getSprite());
             ++counter;
         }
-        if(counter == 25) { delete *temp.begin(); temp.pop_front(); counter = 0;}
+        if(counter == 100) { delete *temp.begin(); temp.pop_front(); counter = 0;}
 
         win.display();
     }
 }
 
-void mapRendering(sf::RenderWindow &win){
-    Texture main_texture;
-    Texture sec_texture;
-
-    Image tile_set;
-    tile_set.loadFromFile("Tileset.png");
-    tile_set.createMaskFromColor(sf::Color(148, 148, 255));
-    tile_set.createMaskFromColor(sf::Color(0, 41, 140));
-
-    main_texture.loadFromFile("Mario_tileset.png");
-    sec_texture.loadFromImage(tile_set);
-
+void mapRendering(sf::RenderWindow &win, const sf::Texture &main_texture, const sf::Texture &sec_texture){
     Sprite tyle(main_texture);
     Sprite sec_tyle(sec_texture);
 
@@ -107,16 +110,6 @@ void mapRendering(sf::RenderWindow &win){
                                             texture_size, texture_size));
                 tyle.setScale(Vector2f(2.13, 2.1));
             }
-//            if (TileMap[i][j] == 'b') {
-//                tyle.setTextureRect(IntRect(143, 112,
-//                                            texture_size, texture_size));
-//                tyle.setScale(Vector2f(2.1, 2.1));
-//            }
-//            if (TileMap[i][j] == '0') {
-//                tyle.setTextureRect(IntRect(127, 112, texture_size+1,
-//                                            texture_size));
-//                tyle.setScale(Vector2f(2.1, 2.1));
-//            }
             if (TileMap[i][j] == 'k') {
                 tyle.setTextureRect(IntRect(46, 58, 47, 24));
                 tyle.setScale(Vector2f(2, 2));
@@ -196,13 +189,15 @@ void mapRendering(sf::RenderWindow &win){
     }
 }
 
-void getEnemies(std::list<Creature*> &list, const sf::Texture &texture){
+void getEntities(std::list<Creature*> &list, const sf::Texture &main_texture, const sf::Texture &sec_texture){
     for(int i=0;i<Height;++i){
         for(int j=0;j<Width;++j){
-            if(TileMap[i][j] == 'g') list.push_back(new Enemy(texture, "Mushroom", j*tile_size,
+            if(TileMap[i][j] == 'g') list.push_back(new Enemy(main_texture, "Mushroom", j*tile_size,
                                           i*tile_size, tile_size-5, 0, 0));
-            else if(TileMap[i][j] == 'b') list.push_back(new Block(texture, "Brick", j*tile_size, i*tile_size));
-            else if(TileMap[i][j] == '0') list.push_back(new Block(texture, "Lucky", j*tile_size, i*tile_size));
+            else if(TileMap[i][j] == 'b') list.push_back(new Block(main_texture, "Brick",
+                                                                   j*tile_size, i*tile_size));
+            else if(TileMap[i][j] == '0') list.push_back(new Block(sec_texture, "Lucky",
+                                                                   j*tile_size, i*tile_size));
         }
     }
 }
