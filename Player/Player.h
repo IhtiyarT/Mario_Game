@@ -16,6 +16,7 @@ public:
     void collision(int dir)override;
     void animation()override;
     void playerMoves(float &offsetX);
+    void turnBack(){ _hit_box.top += _hit_box.height/5; _dy = 0;}
 private:
     Sounds sounds;
 };

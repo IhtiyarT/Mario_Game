@@ -37,6 +37,14 @@ void windowRendering(){
         win.clear(Color(20, 170, 255));
 
         while(lag >= MS_PER_UPDATE) {
+            for(iter=entities.begin();iter!=entities.end();++iter){
+                if(player.getHitBox().intersects((*iter)->getHitBox())) {
+                    if ((*iter)->getName() == "Brick" || (*iter)->getName() == "Lucky") {
+                        (*iter)->setDy(-6);
+                        player.turnBack();
+                    }
+                }
+            }
             player.update(offsetX);
             for(iter=entities.begin();iter!=entities.end();){
                 Creature *b = *iter;
@@ -45,7 +53,6 @@ void windowRendering(){
                 else ++iter;
             }
             lag -= MS_PER_UPDATE;
-
         }
 
         mapRendering(win);
@@ -59,18 +66,15 @@ void windowRendering(){
                     player.setDy(-0.2);
                     temp.push_back(*iter);
                 }
-                else if((*iter)->getName() == "Brick" || (*iter)->getName() == "Lucky" ) {
-                    (*iter)->setDy(-5);
-                    player.setDy(3);
-                }
             }
         }
         win.draw(player.getSprite());
+
         if(!temp.empty()) {
             for (iter = temp.begin(); iter != temp.end(); ++iter) win.draw((*iter)->getSprite());
             ++counter;
         }
-        if(counter == 15) { delete *temp.begin(); temp.pop_front(); counter = 0;}
+        if(counter == 25) { delete *temp.begin(); temp.pop_front(); counter = 0;}
 
         win.display();
     }

@@ -12,8 +12,8 @@ public:
     void collision(int dir)override{}
     void animation()override{}
 private:
-    bool _is_moving;
     int _tick_counter;
+    float _top, _left;
 };
 
 
