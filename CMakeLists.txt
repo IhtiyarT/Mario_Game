@@ -15,26 +15,35 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Tileset.png
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/items_set.png
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
-include_directories(assets/sound Creature)
+include_directories(Creature
+                    Blocks
+                    Enemy
+                    GameLogic
+                    Observer
+                    Player)
 
-add_executable(Mario_Game main.cpp
-        Player/Player.h
+set(SOURCE_CPP main.cpp
         Player/Player.cpp
-        main.h
-        Enemy/Enemy.h
         Enemy/Enemy.cpp
-        GameLogic/GameLogic.h
         GameLogic/GameLogic.cpp
-        GameLogic/map.h
         Creature/Creature.cpp
-        Creature/Creature.h
         Observer/Observer.cpp
-        Observer/Observer.h
         Observer/Sounds.cpp
-        Observer/Sounds.h
         Blocks/Blocks.cpp
-        Blocks/Blocks.h
         Observer/Effects.cpp
+)
+
+set(SOURCE_H main.h
+        Enemy/Enemy.h
+        GameLogic/GameLogic.h
+        GameLogic/map.h
+        Creature/Creature.h
+        Observer/Observer.h
+        Observer/Sounds.h
+        Blocks/Blocks.h
         Observer/Effects.h)
+
+add_executable(Mario_Game ${SOURCE_CPP}
+                            ${SOURCE_H})
 
 target_link_libraries(Mario_Game sfml-graphics sfml-window sfml-audio)

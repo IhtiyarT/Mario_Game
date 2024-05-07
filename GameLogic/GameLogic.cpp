@@ -1,9 +1,17 @@
 #include "GameLogic.h"
 using namespace sf;
 
-void windowRendering(){
+const double MS_PER_UPDATE = 16;
 
-    sf::RenderWindow win(sf::VideoMode(sizeX, sizeY), "Mario.exe");
+Game::Game(){
+    _win.create(sf::VideoMode(sizeX, sizeY), "Mario.exe");
+
+    music.openFromFile("assets/sound/bgm.wav");
+    music.play();
+    music.setLoop(true);
+}
+
+void Game::windowRendering(){
     Texture main_texture;
     Texture sec_texture;
 
@@ -22,40 +30,36 @@ void windowRendering(){
     std::list<Creature*> temp;
     getEntities(entities, main_texture, sec_texture);
 
-    sf::Music music;
-    music.openFromFile("assets/sound/bgm.wav");
-    music.play();
-    music.setLoop(true);
-
     int counter = 0;
     Clock clock;
     double previous = clock.getElapsedTime().asMilliseconds();
     double lag = 0.0;
-    while(win.isOpen()){
+    while(_win.isOpen()){
         double current = clock.getElapsedTime().asMilliseconds();
         double elapsed = current - previous;
         previous = current;
         lag += elapsed;
         Event event;
-        while (win.pollEvent(event))
+        while (_win.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
-                win.close();
+                _win.close();
         }
 
-        win.clear(Color(20, 170, 255));
+        _win.clear(Color(20, 170, 255));
 
         while(lag >= MS_PER_UPDATE) {
             for(iter=entities.begin();iter!=entities.end();++iter){
-                if(player.getHitBox().intersects((*iter)->getHitBox())) {
-                    if ((*iter)->getName() == "Brick") {
-                        (*iter)->setDy(-6);
+                if(player.getHitBox().intersects((*iter)->getHitBox()) && (*iter)->getLife()){
+                    if ((*iter)->getName() == "Block") {
+                        (*iter)->collision(0);
                         player.turnBack();
                     }
-                    else if((*iter)->getName() == "Lucky"){
-                        if((*iter)->getLife()) (*iter)->setDy(-6);
-                        player.turnBack();
+                    if((*iter)->getName() == "Mushroom") {
                         (*iter)->setLife(false);
+                        (*iter)->setDx(0);
+                        player.setDy(-0.2);
+                        temp.push_back(*iter);
                     }
                 }
             }
@@ -63,38 +67,30 @@ void windowRendering(){
             for(iter=entities.begin();iter!=entities.end();){
                 Creature *b = *iter;
                 b->update(offsetX);
-                if(!b->getLife() && b->getName() != "Lucky"){iter = entities.erase(iter);}
+                if(!b->getLife()){iter = entities.erase(iter);}
                 else ++iter;
             }
             lag -= MS_PER_UPDATE;
         }
 
-        mapRendering(win, main_texture, sec_texture);
+        mapRendering(_win, main_texture, sec_texture);
 
         for(iter=entities.begin();iter!=entities.end();++iter) {
-            win.draw((*iter)->getSprite());
-            if (player.getHitBox().intersects((*iter)->getHitBox()) && (*iter)->getLife()){
-                if((*iter)->getName() == "Mushroom") {
-                    (*iter)->setLife(false);
-                    (*iter)->setDx(0);
-                    player.setDy(-0.2);
-                    temp.push_back(*iter);
-                }
-            }
+            _win.draw((*iter)->getSprite());
         }
-        win.draw(player.getSprite());
+        _win.draw(player.getSprite());
 
         if(!temp.empty()) {
-            for (iter = temp.begin(); iter != temp.end(); ++iter) win.draw((*iter)->getSprite());
+            for (iter = temp.begin(); iter != temp.end(); ++iter) _win.draw((*iter)->getSprite());
             ++counter;
         }
         if(counter == 100) { delete *temp.begin(); temp.pop_front(); counter = 0;}
 
-        win.display();
+        _win.display();
     }
 }
 
-void mapRendering(sf::RenderWindow &win, const sf::Texture &main_texture, const sf::Texture &sec_texture){
+void Game::mapRendering(sf::RenderWindow &win, const sf::Texture &main_texture, const sf::Texture &sec_texture){
     Sprite tyle(main_texture);
     Sprite sec_tyle(sec_texture);
 
@@ -194,9 +190,9 @@ void getEntities(std::list<Creature*> &list, const sf::Texture &main_texture, co
         for(int j=0;j<Width;++j){
             if(TileMap[i][j] == 'g') list.push_back(new Enemy(main_texture, "Mushroom", j*tile_size,
                                           i*tile_size, tile_size-5, 0, 0));
-            else if(TileMap[i][j] == 'b') list.push_back(new Block(main_texture, "Brick",
+            else if(TileMap[i][j] == 'b') list.push_back(new BrickBlock(main_texture,
                                                                    j*tile_size, i*tile_size));
-            else if(TileMap[i][j] == '0') list.push_back(new Block(sec_texture, "Lucky",
+            else if(TileMap[i][j] == '0') list.push_back(new LuckyBlock(sec_texture,
                                                                    j*tile_size, i*tile_size));
         }
     }

@@ -1,7 +1,7 @@
 #ifndef MARIO_GAME_OBSERVER_H
 #define MARIO_GAME_OBSERVER_H
 
-#include "../Creature/Creature.h"
+#include "Creature.h"
 #include "SFML/Audio.hpp"
 #include <vector>
 

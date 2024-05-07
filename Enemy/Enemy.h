@@ -1,8 +1,8 @@
 #ifndef MARIO_GAME_ENEMY_H
 #define MARIO_GAME_ENEMY_H
 
-#include "../Creature/Creature.h"
-#include "../Observer/Sounds.h"
+#include "Creature.h"
+#include "Sounds.h"
 
 class Enemy : public Creature, public Subject
 {

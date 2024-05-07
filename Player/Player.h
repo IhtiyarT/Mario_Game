@@ -2,7 +2,7 @@
 #define MARIO_GAME_PLAYER_H
 
 #include "Creature.h"
-#include "../Observer/Sounds.h"
+#include "Sounds.h"
 
 #define sizeX 1280
 #define sizeY 704

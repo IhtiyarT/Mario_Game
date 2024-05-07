@@ -1,19 +1,35 @@
 #ifndef MARIO_GAME_BLOCKS_H
 #define MARIO_GAME_BLOCKS_H
 
-#include "../Creature/Creature.h"
+#include "Creature.h"
 #include <string>
 
 class Block : public Creature
 {
 public:
-    Block(const sf::Texture &texture, const std::string &name, float left, float top);
-    void update(float &offsetX)override;
-    void collision(int dir)override{}
-    void animation()override;
-private:
+    Block(const sf::Texture &texture, float left, float top);
+protected:
     int _tick_counter;
-    float _top, _left;
+};
+
+class LuckyBlock : public Block
+{
+public:
+    LuckyBlock(const sf::Texture &texture, float left, float top);
+    void update(float &offsetX)override;
+    void animation()override;
+    void collision(int)override;
+private:
+    bool _is_coin;
+};
+
+class BrickBlock : public Block
+{
+public:
+    BrickBlock(const sf::Texture &texture, float left, float top);
+    void update(float &offsetX)override;
+    void collision(int)override;
+    void animation()override{}
 };
 
 
