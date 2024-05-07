@@ -12,7 +12,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Mario_tileset.png
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Tileset.png
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/assets/sound/jump.wav
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/items_set.png
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 include_directories(assets/sound Creature)
@@ -33,6 +33,8 @@ add_executable(Mario_Game main.cpp
         Observer/Sounds.cpp
         Observer/Sounds.h
         Blocks/Blocks.cpp
-        Blocks/Blocks.h)
+        Blocks/Blocks.h
+        Observer/Effects.cpp
+        Observer/Effects.h)
 
 target_link_libraries(Mario_Game sfml-graphics sfml-window sfml-audio)
