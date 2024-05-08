@@ -9,7 +9,7 @@ class Enemy : public Creature, public Subject
 public:
     explicit Enemy(const sf::Texture &image, const std::string &name, int left, int top, int width, int x, int y);
     ~Enemy(){ removeObserver(&sound);}
-    void update(float& offsetX)override;
+    void update()override;
     void collision(int dir)override;
     void animation()override;
 protected:

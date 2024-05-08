@@ -3,12 +3,11 @@ using namespace sf;
 
 const double MS_PER_UPDATE = 16;
 
-Game::Game(){
-    _win.create(sf::VideoMode(sizeX, sizeY), "Mario.exe");
-
-    music.openFromFile("assets/sound/bgm.wav");
-    music.play();
-    music.setLoop(true);
+Game::Game() : _win(sf::VideoMode(sizeX, sizeY), "Mario.exe"), _effects(_win)
+{
+    _music.openFromFile("assets/sound/bgm.wav");
+    _music.play();
+    _music.setLoop(true);
 }
 
 void Game::windowRendering(){
@@ -63,22 +62,22 @@ void Game::windowRendering(){
                     }
                 }
             }
-            player.update(offsetX);
+            player.update();
             for(iter=entities.begin();iter!=entities.end();){
                 Creature *b = *iter;
-                b->update(offsetX);
+                b->update();
                 if(!b->getLife()){iter = entities.erase(iter);}
                 else ++iter;
             }
             lag -= MS_PER_UPDATE;
         }
-
         mapRendering(_win, main_texture, sec_texture);
 
         for(iter=entities.begin();iter!=entities.end();++iter) {
             _win.draw((*iter)->getSprite());
         }
         _win.draw(player.getSprite());
+        _effects.update();
 
         if(!temp.empty()) {
             for (iter = temp.begin(); iter != temp.end(); ++iter) _win.draw((*iter)->getSprite());
@@ -89,6 +88,20 @@ void Game::windowRendering(){
         _win.display();
     }
 }
+
+void Game::getEntities(std::list<Creature*> &list, const sf::Texture &main_texture, const sf::Texture &sec_texture){
+    for(int i=0;i<Height;++i){
+        for(int j=0;j<Width;++j){
+            if(TileMap[i][j] == 'g') list.push_back(new Enemy(main_texture, "Mushroom", j*tile_size,
+                                                              i*tile_size, tile_size-5, 0, 0));
+            else if(TileMap[i][j] == 'b') list.push_back(new BrickBlock(main_texture,
+                                                                        j*tile_size, i*tile_size, _effects));
+            else if(TileMap[i][j] == '0') list.push_back(new LuckyBlock(sec_texture,
+                                                                        j*tile_size, i*tile_size, _effects));
+        }
+    }
+}
+
 
 void Game::mapRendering(sf::RenderWindow &win, const sf::Texture &main_texture, const sf::Texture &sec_texture){
     Sprite tyle(main_texture);
@@ -184,17 +197,3 @@ void Game::mapRendering(sf::RenderWindow &win, const sf::Texture &main_texture, 
         }
     }
 }
-
-void getEntities(std::list<Creature*> &list, const sf::Texture &main_texture, const sf::Texture &sec_texture){
-    for(int i=0;i<Height;++i){
-        for(int j=0;j<Width;++j){
-            if(TileMap[i][j] == 'g') list.push_back(new Enemy(main_texture, "Mushroom", j*tile_size,
-                                          i*tile_size, tile_size-5, 0, 0));
-            else if(TileMap[i][j] == 'b') list.push_back(new BrickBlock(main_texture,
-                                                                   j*tile_size, i*tile_size));
-            else if(TileMap[i][j] == '0') list.push_back(new LuckyBlock(sec_texture,
-                                                                   j*tile_size, i*tile_size));
-        }
-    }
-}
-

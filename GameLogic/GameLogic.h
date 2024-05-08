@@ -5,9 +5,10 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Blocks.h"
-#include <iostream>
+#include "Effects.h"
 #include "map.h"
 #include <list>
+#include "../main.h"
 
 inline float offsetX=34;
 
@@ -15,12 +16,13 @@ class Game{
 public:
     Game();
     void windowRendering();
+    void getEntities(std::list<Creature*> &list, const sf::Texture&, const sf::Texture&);
     static void mapRendering(sf::RenderWindow &win, const sf::Texture&, const sf::Texture&);
 private:
     sf::RenderWindow _win;
-    sf::Music music;
+    sf::Music _music;
+    Effects _effects;
 };
 
-void getEntities(std::list<Creature*> &list, const sf::Texture&, const sf::Texture&);
 
 #endif //MARIO_GAME_GAMELOGIC_H

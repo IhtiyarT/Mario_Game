@@ -1,22 +1,35 @@
 #include "Effects.h"
-#include <iostream>
+#include "GameLogic.h"
 
-Effects::Effects() {
+Effects::Effects(sf::RenderWindow &win) : _win{&win}
+{
     sf::Image image;
-    sf::Texture texture;
 
-    image.loadFromFile("items_set.png");
+    if(!image.loadFromFile("items_set.png")) std::cout << "Error! items in set";
     image.createMaskFromColor(sf::Color(146, 144, 255));
-    texture.loadFromImage(image);
+    _texture.loadFromImage(image);
 
-    _sprite.setTexture(texture);
+    _sprite.setTexture(_texture);
+    _sprite.setScale(sf::Vector2f(2, 2));
 }
 
 void Effects::onNotify(const Creature &creature, oEvent event){
     switch(event){
         case oEvent::COIN_EFFECT:
-            _coordinates.x = creature.getHitBox().left;
-            _coordinates.y = creature.getHitBox().top + tile_size;
+            _sprite.setTextureRect(sf::IntRect(180, 36, 8, 16));
+            _sprite.setPosition(creature.getHitBox().left + 10 - offsetX, creature.getHitBox().top - tile_size);
+            _effects_to_draw.push_back(new CoinContainer(_sprite, 0));
     }
 }
 
+void Effects::update(){
+    for(iterator = _effects_to_draw.begin();iterator!=_effects_to_draw.end();++iterator) {
+        (*iterator)->stateUpdate();
+        _win->draw((*iterator)->_sprite);
+        if(int((*iterator)->_current_frame) == 7) iterator = _effects_to_draw.erase(iterator);
+    }
+}
+
+void Effects::pushBack(){
+
+}

@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "GameLogic.h"
 
 using namespace sf;
 
@@ -12,7 +13,7 @@ Enemy::Enemy(const Texture &image, const std::string &name, int left, int top, i
     addObserver(&sound);
 }
 
-void Enemy::update(float& offsetX){
+void Enemy::update(){
     _hit_box.left += _dx;
     collision(0);
 

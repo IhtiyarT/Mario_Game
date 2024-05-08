@@ -1,4 +1,4 @@
-#include "main.h"
+#include "GameLogic.h"
 using namespace sf;
 
 int main(){

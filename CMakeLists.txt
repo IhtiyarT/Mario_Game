@@ -41,7 +41,8 @@ set(SOURCE_H main.h
         Observer/Observer.h
         Observer/Sounds.h
         Blocks/Blocks.h
-        Observer/Effects.h)
+        Observer/Effects.h
+        Observer/SpriteContainer.h)
 
 add_executable(Mario_Game ${SOURCE_CPP}
                             ${SOURCE_H})

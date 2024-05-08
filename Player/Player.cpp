@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameLogic.h"
 using namespace sf;
 
 Player::Player(sf::Texture &image) : Creature(image)
@@ -8,7 +9,7 @@ Player::Player(sf::Texture &image) : Creature(image)
     addObserver(&sounds);
 }
 
-void Player::update(float& offsetX){
+void Player::update(){
     _hit_box.left += _dx;
     collision(0);
 
@@ -17,7 +18,7 @@ void Player::update(float& offsetX){
     _on_ground = false;
     collision(1);
 
-    playerMoves(offsetX);
+    playerMoves();
     animation();
 
     _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top);
@@ -63,7 +64,7 @@ void Player::animation(){
                                                             texture_size, texture_size));
 }
 
-void Player::playerMoves(float &offsetX){
+void Player::playerMoves(){
     if(_hit_box.left <= offsetX) { _hit_box.left = offsetX; _dx = 0; }
     else if(Keyboard::isKeyPressed(Keyboard::Left)){
         if(_dx > -3.5) _dx -= 0.05;

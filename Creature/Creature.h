@@ -4,8 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include "map.h"
 
-#define texture_size 16
-#define tile_size 32
 
 class Creature
 {
@@ -27,7 +25,7 @@ public:
     void setLife(bool life) {_is_alive = life;}
     std::string getName()const{return _name;}
     virtual void collision(int dir) = 0;
-    virtual void update(float &offsetX) = 0;
+    virtual void update() = 0;
     virtual void animation() = 0;
 };
 
