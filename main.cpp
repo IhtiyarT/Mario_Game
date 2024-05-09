@@ -2,8 +2,8 @@
 using namespace sf;
 
 int main(){
-    Game game;
-    game.windowRendering();
+    bool run{true};
+    while(run) run = startGame();
     return 0;
 }
 

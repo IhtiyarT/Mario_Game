@@ -14,7 +14,13 @@ Game::~Game(){
     for(auto iter : _entities) delete iter;
 }
 
-void Game::windowRendering(){
+bool startGame(){
+    Game game;
+    offsetX = 34;
+    return game.windowRendering();
+}
+
+bool Game::windowRendering(){
     Texture main_texture;
     Texture sec_texture;
 
@@ -33,6 +39,7 @@ void Game::windowRendering(){
 
     auto iter = _entities.begin();
 
+    double timer = 0;
     int counter = 0;
     Clock clock;
     double previous = clock.getElapsedTime().asMilliseconds();
@@ -79,6 +86,7 @@ void Game::windowRendering(){
             _win.draw((*iter)->getSprite());
         }
         if(player.getLife()) _win.draw(player.getSprite());
+        else timer+=0.25;
         _effects.update();
 
         if(!temp.empty()) {
@@ -88,7 +96,11 @@ void Game::windowRendering(){
         if(counter == 200) { delete *temp.begin(); temp.pop_front(); counter = 0;}
 
         _win.display();
+        if(timer > 600) return true;
+        if(Keyboard::isKeyPressed(sf::Keyboard::Key::Tab)) return true;
+        if(Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) return false;
     }
+    return false;
 }
 
 void Game::getEntities(std::list<Creature*> &list, const sf::Texture &main_texture, const sf::Texture &sec_texture){

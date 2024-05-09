@@ -16,7 +16,7 @@ class Game{
 public:
     Game();
     ~Game();
-    void windowRendering();
+    bool windowRendering();
     void getEntities(std::list<Creature*> &list, const sf::Texture&, const sf::Texture&);
     static void mapRendering(sf::RenderWindow &win, const sf::Texture&, const sf::Texture&);
 private:
@@ -26,5 +26,6 @@ private:
     std::list<Creature*> _entities;
 };
 
+bool startGame();
 
 #endif //MARIO_GAME_GAMELOGIC_H
