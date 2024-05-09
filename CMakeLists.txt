@@ -14,6 +14,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Tileset.png
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/items_set.png
         ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mario.png
+        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 include_directories(Creature
                     Blocks

@@ -10,6 +10,10 @@ Game::Game() : _win(sf::VideoMode(sizeX, sizeY), "Mario.exe"), _effects(_win)
     _music.setLoop(true);
 }
 
+Game::~Game(){
+    for(auto iter : _entities) delete iter;
+}
+
 void Game::windowRendering(){
     Texture main_texture;
     Texture sec_texture;
@@ -22,12 +26,12 @@ void Game::windowRendering(){
     main_texture.loadFromFile("Mario_tileset.png");
     sec_texture.loadFromImage(tile_set);
 
-    Player player(main_texture);
+    Player player(main_texture, _effects);
 
-    std::list<Creature*> entities;
-    std::list<Creature*>::iterator iter;
     std::list<Creature*> temp;
-    getEntities(entities, main_texture, sec_texture);
+    getEntities(_entities, main_texture, sec_texture);
+
+    auto iter = _entities.begin();
 
     int counter = 0;
     Clock clock;
@@ -48,42 +52,40 @@ void Game::windowRendering(){
         _win.clear(Color(20, 170, 255));
 
         while(lag >= MS_PER_UPDATE) {
-            for(iter=entities.begin();iter!=entities.end();++iter){
+            for(iter=_entities.begin(); iter != _entities.end();){
                 if(player.getHitBox().intersects((*iter)->getHitBox()) && (*iter)->getLife()){
                     if ((*iter)->getName() == "Block") {
                         (*iter)->collision(0);
                         player.turnBack();
                     }
-                    if((*iter)->getName() == "Mushroom") {
+                    if((*iter)->getName() == "Mushroom" && player.getDy() > 0) {
                         (*iter)->setLife(false);
                         (*iter)->setDx(0);
                         player.setDy(-0.2);
                         temp.push_back(*iter);
                     }
+                    else if((*iter)->getName() == "Mushroom" && player.getLife()) player.setLife(false);
                 }
-            }
-            player.update();
-            for(iter=entities.begin();iter!=entities.end();){
-                Creature *b = *iter;
-                b->update();
-                if(!b->getLife()){iter = entities.erase(iter);}
+                (*iter)->update();
+                if(!(*iter)->getLife()){ iter = _entities.erase(iter);}
                 else ++iter;
             }
+            player.update();
             lag -= MS_PER_UPDATE;
         }
         mapRendering(_win, main_texture, sec_texture);
 
-        for(iter=entities.begin();iter!=entities.end();++iter) {
+        for(iter=_entities.begin(); iter != _entities.end(); ++iter) {
             _win.draw((*iter)->getSprite());
         }
-        _win.draw(player.getSprite());
+        if(player.getLife()) _win.draw(player.getSprite());
         _effects.update();
 
         if(!temp.empty()) {
             for (iter = temp.begin(); iter != temp.end(); ++iter) _win.draw((*iter)->getSprite());
             ++counter;
         }
-        if(counter == 100) { delete *temp.begin(); temp.pop_front(); counter = 0;}
+        if(counter == 200) { delete *temp.begin(); temp.pop_front(); counter = 0;}
 
         _win.display();
     }

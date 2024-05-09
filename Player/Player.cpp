@@ -2,14 +2,20 @@
 #include "GameLogic.h"
 using namespace sf;
 
-Player::Player(sf::Texture &image) : Creature(image)
+Player::Player(sf::Texture &image, Effects &effect) : Creature(image)
 {
     _hit_box = FloatRect(100, 570, tile_size-5, tile_size);
     _sprite.setTextureRect(IntRect(112, 144, texture_size, texture_size));
-    addObserver(&sounds);
+    addObserver(&_s_observer);
+    addObserver(&effect);
+}
+
+Player::~Player(){
+    removeObserver(&_s_observer);
 }
 
 void Player::update(){
+    if(!_is_alive) return;
     _hit_box.left += _dx;
     collision(0);
 
@@ -22,7 +28,7 @@ void Player::update(){
     animation();
 
     _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top);
-
+    if(this->_hit_box.top > 750) this->setLife(false);
 }
 
 void Player::collision(int dir) {

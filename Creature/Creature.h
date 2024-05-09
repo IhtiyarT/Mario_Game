@@ -19,10 +19,11 @@ public:
     virtual ~Creature(){}
     void setDx(float dx){_dx = dx;}
     void setDy(float dy){_dy = dy;}
+    float getDy()const{return _dy;}
     sf::FloatRect getHitBox() const{return _hit_box;}
     sf::Sprite getSprite() const{return _sprite;}
     bool getLife()const {return _is_alive;}
-    void setLife(bool life) {_is_alive = life;}
+    virtual void setLife(bool life) {_is_alive = life;}
     std::string getName()const{return _name;}
     virtual void collision(int dir) = 0;
     virtual void update() = 0;

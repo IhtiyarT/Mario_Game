@@ -8,12 +8,13 @@ class Enemy : public Creature, public Subject
 {
 public:
     explicit Enemy(const sf::Texture &image, const std::string &name, int left, int top, int width, int x, int y);
-    ~Enemy(){ removeObserver(&sound);}
+    ~Enemy()override;
     void update()override;
     void collision(int dir)override;
     void animation()override;
+private:
+    Sounds _s_observer;
 protected:
-    Sounds sound;
 };
 
 #endif //MARIO_GAME_ENEMY_H

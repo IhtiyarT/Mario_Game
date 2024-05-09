@@ -5,10 +5,11 @@ void Subject::addObserver(Observer *observer){
 }
 
 void Subject::removeObserver(Observer *observer){
-    auto iter = _observers.begin();
-    for(Observer *obs : _observers){
-        if(obs == observer) _observers.erase(iter);
-        else ++iter;
+    for(auto iter = _observers.begin();iter!=_observers.end();){
+        if(*iter == observer) {
+            _observers.erase(iter);
+            return;
+        }
     }
 }
 

@@ -15,6 +15,7 @@ inline float offsetX=34;
 class Game{
 public:
     Game();
+    ~Game();
     void windowRendering();
     void getEntities(std::list<Creature*> &list, const sf::Texture&, const sf::Texture&);
     static void mapRendering(sf::RenderWindow &win, const sf::Texture&, const sf::Texture&);
@@ -22,6 +23,7 @@ private:
     sf::RenderWindow _win;
     sf::Music _music;
     Effects _effects;
+    std::list<Creature*> _entities;
 };
 
 

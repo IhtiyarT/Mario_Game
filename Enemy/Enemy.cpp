@@ -10,7 +10,11 @@ Enemy::Enemy(const Texture &image, const std::string &name, int left, int top, i
     _is_alive = true;
     _name = name;
     _dx = 1;
-    addObserver(&sound);
+    addObserver(&_s_observer);
+}
+
+Enemy::~Enemy(){
+    removeObserver(&_s_observer);
 }
 
 void Enemy::update(){

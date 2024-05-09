@@ -3,18 +3,20 @@
 
 #include "Creature.h"
 #include "Effects.h"
+#include "Sounds.h"
 #include <string>
 
 class Block : public Creature, public Subject
 {
 public:
     Block(const sf::Texture &texture, float left, float top, Effects &effects);
+    ~Block()override{}
     void update()override = 0;
     void animation()override = 0;
     void collision(int)override = 0;
 protected:
     int _tick_counter;
-    Effects *_effects;
+    Sounds _s_observer;
 };
 
 class LuckyBlock : public Block

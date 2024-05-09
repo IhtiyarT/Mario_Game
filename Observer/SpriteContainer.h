@@ -25,5 +25,17 @@ struct CoinContainer : SpriteContainer
     }
 };
 
+struct DiedMarioContainer : SpriteContainer{
+    DiedMarioContainer(sf::Sprite sprite, float current_frame) : SpriteContainer(sprite, current_frame){}
+    void stateUpdate()override{
+        _current_frame += 0.01;
+
+        float direction = int(_current_frame) > 0 ? 0.5 : -0.5;
+
+        _sprite.setPosition(_sprite.getPosition().x,
+                            _sprite.getPosition().y + direction);
+    }
+};
+
 
 #endif //MARIO_GAME_SPRITECONTAINER_H

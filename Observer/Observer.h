@@ -9,12 +9,13 @@ enum struct oEvent
 {
     PLAYER_JUMP,
     MUSHROOM_DIED,
-    COIN_EFFECT
+    COIN_FALL,
+    PLAYER_DIED
 };
 
 class Observer {
 public:
-    virtual ~Observer() {}
+    virtual ~Observer(){}
     virtual void onNotify(const Creature &creature, oEvent event) = 0;
 };
 

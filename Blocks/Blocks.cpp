@@ -6,8 +6,8 @@ Block::Block(const sf::Texture &texture, float left, float top, Effects &effects
     _hit_box = sf::FloatRect(left, top, tile_size, tile_size);
     _tick_counter = 0;
     _name = "Block";
-    _effects = &effects;
-    addObserver(_effects);
+    addObserver(&effects);
+    addObserver(&_s_observer);
 }
 
 BrickBlock::BrickBlock(const sf::Texture &texture, float left, float top, Effects &effects) : Block(texture, left, top, effects) {
@@ -63,7 +63,7 @@ void LuckyBlock::animation() {
 }
 
 void LuckyBlock::collision(int){
-    if(_is_coin) { _dy = -6; notify(*this, oEvent::COIN_EFFECT); }
+    if(_is_coin) { _dy = -6; notify(*this, oEvent::COIN_FALL); }
     _is_coin = false;
 }
 
