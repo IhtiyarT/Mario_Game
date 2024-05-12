@@ -9,7 +9,7 @@ Enemy::Enemy(const Texture &image, const std::string &name, int left, int top, i
     _sprite.setTextureRect(IntRect(x, y, texture_size, texture_size));
     _is_alive = true;
     _name = name;
-    _dx = 1;
+    _dx = -1;
     addObserver(&_s_observer);
 }
 
@@ -18,17 +18,21 @@ Enemy::~Enemy(){
 }
 
 void Enemy::update(){
-    _hit_box.left += _dx;
-    collision(0);
-
-    if(!_on_ground) _dy += 0.08;
-    _hit_box.top += _dy;
-    _on_ground = false;
-    collision(1);
+    if(_hit_box.left - offsetX < 1280) movements();
 
     animation();
 
     _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top);
+}
+
+void Enemy::movements(){
+    _hit_box.left += _dx;
+    collision(0);
+
+    if(!_on_ground) _dy += 0.1;
+    _hit_box.top += _dy;
+    _on_ground = false;
+    collision(1);
 }
 
 void Enemy::animation(){

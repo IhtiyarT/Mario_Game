@@ -10,6 +10,7 @@ enum struct oEvent
     PLAYER_JUMP,
     MUSHROOM_DIED,
     COIN_FALL,
+    MUSHROOM_ATE,
     PLAYER_DIED
 };
 

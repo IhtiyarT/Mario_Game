@@ -11,3 +11,11 @@ Creature::Creature(const sf::Texture &image){
     _is_alive = true;
     _name = "";
 }
+
+Creature::Creature() {
+    _dx = _dy = 0;
+    _current_frame = 0;
+    _on_ground = false;
+    _is_alive = true;
+    _name = "";
+}

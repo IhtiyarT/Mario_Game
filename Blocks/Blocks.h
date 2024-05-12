@@ -28,7 +28,6 @@ public:
     void collision(int)override;
 private:
     bool _is_coin;
-    sf::Sprite _coin_sprite;
 };
 
 class BrickBlock : public Block
@@ -38,6 +37,17 @@ public:
     void update()override;
     void collision(int)override;
     void animation()override{}
+};
+
+class MushroomBlock : public Block
+{
+public:
+    MushroomBlock(const sf::Texture &texture, float left, float top, Effects &effects);
+    void update()override;
+    void collision(int)override;
+    void animation()override;
+private:
+    bool _is_mushroom;
 };
 
 

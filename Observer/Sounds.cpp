@@ -23,6 +23,11 @@ void Sounds::onNotify(const Creature &creature, oEvent event){
             sound.setBuffer(sound_buf);
             sound.play();
             return;
+        case oEvent::MUSHROOM_ATE:
+            sound_buf.loadFromFile(path + "mushroom.wav");
+            sound.setBuffer(sound_buf);
+            sound.play();
+            return;
     }
 }
 

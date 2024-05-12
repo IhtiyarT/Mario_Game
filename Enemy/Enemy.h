@@ -12,6 +12,7 @@ public:
     void update()override;
     void collision(int dir)override;
     void animation()override;
+    void movements();
 private:
     Sounds _s_observer;
 protected:

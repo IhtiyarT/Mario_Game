@@ -1,4 +1,5 @@
 #include "GameLogic.h"
+
 using namespace sf;
 
 const double MS_PER_UPDATE = 16;
@@ -14,6 +15,7 @@ Game::~Game(){
     for(auto iter : _entities) delete iter;
 }
 
+
 bool startGame(){
     Game game;
     offsetX = 34;
@@ -23,6 +25,7 @@ bool startGame(){
 bool Game::windowRendering(){
     Texture main_texture;
     Texture sec_texture;
+    Texture mario_texture;
 
     Image tile_set;
     tile_set.loadFromFile("Tileset.png");
@@ -31,8 +34,9 @@ bool Game::windowRendering(){
 
     main_texture.loadFromFile("Mario_tileset.png");
     sec_texture.loadFromImage(tile_set);
+    mario_texture.loadFromFile("mario.png");
 
-    Player player(main_texture, _effects);
+    Player player(mario_texture, _effects);
 
     std::list<Creature*> temp;
     getEntities(_entities, main_texture, sec_texture);
@@ -61,17 +65,22 @@ bool Game::windowRendering(){
         while(lag >= MS_PER_UPDATE) {
             for(iter=_entities.begin(); iter != _entities.end();){
                 if(player.getHitBox().intersects((*iter)->getHitBox()) && (*iter)->getLife()){
-                    if ((*iter)->getName() == "Block") {
-                        (*iter)->collision(0);
+                    if ((*iter)->getName() == "Block" || (*iter)->getName() == "Void") {
+                        checkBlock(**iter);
+                        (*iter)->collision(3);
                         player.turnBack();
                     }
-                    if((*iter)->getName() == "Mushroom" && player.getDy() > 0) {
+                    if((*iter)->getName() == "Bonus"){
+                        (*iter)->collision(3);
+                        player.setBig(true);
+                    }
+                    if((*iter)->getName() == "Enemy" && player.getDy() != 0) {
                         (*iter)->setLife(false);
                         (*iter)->setDx(0);
-                        player.setDy(-0.2);
+                        player.setDy(-1);
                         temp.push_back(*iter);
                     }
-                    else if((*iter)->getName() == "Mushroom" && player.getLife()) player.setLife(false);
+                    else if((*iter)->getName() == "Enemy") player.enemyIntersect();
                 }
                 (*iter)->update();
                 if(!(*iter)->getLife()){ iter = _entities.erase(iter);}
@@ -82,12 +91,12 @@ bool Game::windowRendering(){
         }
         mapRendering(_win, main_texture, sec_texture);
 
+        _effects.update();
         for(iter=_entities.begin(); iter != _entities.end(); ++iter) {
             _win.draw((*iter)->getSprite());
         }
         if(player.getLife()) _win.draw(player.getSprite());
         else timer+=0.25;
-        _effects.update();
 
         if(!temp.empty()) {
             for (iter = temp.begin(); iter != temp.end(); ++iter) _win.draw((*iter)->getSprite());
@@ -106,14 +115,22 @@ bool Game::windowRendering(){
 void Game::getEntities(std::list<Creature*> &list, const sf::Texture &main_texture, const sf::Texture &sec_texture){
     for(int i=0;i<Height;++i){
         for(int j=0;j<Width;++j){
-            if(TileMap[i][j] == 'g') list.push_back(new Enemy(main_texture, "Mushroom", j*tile_size,
+            if(TileMap[i][j] == 'g') list.push_back(new Enemy(main_texture, "Enemy", j*tile_size,
                                                               i*tile_size, tile_size-5, 0, 0));
             else if(TileMap[i][j] == 'b') list.push_back(new BrickBlock(main_texture,
                                                                         j*tile_size, i*tile_size, _effects));
             else if(TileMap[i][j] == '0') list.push_back(new LuckyBlock(sec_texture,
                                                                         j*tile_size, i*tile_size, _effects));
+            else if(TileMap[i][j] == 'm') list.push_back(new MushroomBlock(sec_texture,
+                                                                        j*tile_size, i*tile_size, _effects));
         }
     }
+}
+
+void Game::checkBlock(const Creature &creature) {
+    sf::Vector2<int> position(creature.getHitBox().left / tile_size, creature.getHitBox().top / tile_size);
+    if(TileMap[position.y][position.x] == 'm' && creature.getFrame() < 3) _entities.push_front(
+            new Mushroom(creature.getHitBox().left, creature.getHitBox().top));
 }
 
 
@@ -202,7 +219,8 @@ void Game::mapRendering(sf::RenderWindow &win, const sf::Texture &main_texture, 
                 tyle.setTextureRect(IntRect(0, 72, 32, 24));
                 tyle.setScale(Vector2f(2.5, 2.66));
             }
-            if (TileMap[i][j] == 'W' || TileMap[i][j] == '0' || TileMap[i][j] == 'b') continue;
+
+            if (TileMap[i][j] == 'W' || TileMap[i][j] == '0' || TileMap[i][j] == 'b' || TileMap[i][j] == 'm') continue;
             if (TileMap[i][j] == ' ') continue;
             if (TileMap[i][j] == 'g') continue;
 

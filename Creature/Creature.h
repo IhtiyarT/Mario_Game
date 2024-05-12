@@ -16,6 +16,7 @@ protected:
     std::string _name;
 public:
     explicit Creature(const sf::Texture &image);
+    explicit Creature();
     virtual ~Creature(){}
     void setDx(float dx){_dx = dx;}
     void setDy(float dy){_dy = dy;}
@@ -23,8 +24,9 @@ public:
     sf::FloatRect getHitBox() const{return _hit_box;}
     sf::Sprite getSprite() const{return _sprite;}
     bool getLife()const {return _is_alive;}
-    virtual void setLife(bool life) {_is_alive = life;}
     std::string getName()const{return _name;}
+    float getFrame()const{return _current_frame;}
+    virtual void setLife(bool life) {_is_alive = life;}
     virtual void collision(int dir) = 0;
     virtual void update() = 0;
     virtual void animation() = 0;

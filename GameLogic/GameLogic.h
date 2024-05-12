@@ -8,6 +8,7 @@
 #include "Effects.h"
 #include "map.h"
 #include <list>
+#include "Mushroom.h"
 #include "../main.h"
 
 inline float offsetX=34;
@@ -18,6 +19,7 @@ public:
     ~Game();
     bool windowRendering();
     void getEntities(std::list<Creature*> &list, const sf::Texture&, const sf::Texture&);
+    void checkBlock(const Creature &creature);
     static void mapRendering(sf::RenderWindow &win, const sf::Texture&, const sf::Texture&);
 private:
     sf::RenderWindow _win;
