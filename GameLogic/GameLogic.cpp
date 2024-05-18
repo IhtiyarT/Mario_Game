@@ -15,7 +15,6 @@ Game::~Game(){
     for(auto iter : _entities) delete iter;
 }
 
-
 bool startGame(){
     Game game;
     offsetX = 34;
@@ -142,7 +141,6 @@ void Game::checkBlock(const Creature &creature) {
     if(TileMap[position.y][position.x] == 'm' && creature.getFrame() < 3) _entities.push_front(
             new Mushroom(creature.getHitBox().left, creature.getHitBox().top));
 }
-
 
 void Game::mapRendering(sf::RenderWindow &win, const sf::Texture &main_texture, const sf::Texture &sec_texture){
     Sprite tyle(main_texture);

@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.27)
 project(Mario_Game)
 
 set(SFML_STATIC_LIBRARIES TRUE)
-set(SFML_DIR "C:/Users/DELL/source/C++libs/SFML-2.6.1/lib/cmake/SFML")
 find_package(SFML 2.6.1 REQUIRED graphics network audio window system)
 
 set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc")

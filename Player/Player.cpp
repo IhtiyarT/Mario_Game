@@ -62,12 +62,13 @@ void Player::animation(){
     _current_frame += 0.08;
     int size_coef = _is_big;
     if(_current_frame > 3) _current_frame -= 3;
+    using Kb = Keyboard;
 
-    if(_dx > 0 && Keyboard::isKeyPressed(sf::Keyboard::Left)) _sprite.setTextureRect(IntRect(329,
-                         26 * size_coef * 2,texture_size, texture_size*(1 + size_coef)));
+    if(_dx > 0 && (Kb::isKeyPressed(Kb::Left) || Kb::isKeyPressed(Kb::A))) _sprite.setTextureRect(
+       IntRect(329,26 * size_coef * 2,texture_size, texture_size*(1 + size_coef)));
     else if(_dx > 0) _sprite.setTextureRect(IntRect(301 - 31 * int(_current_frame),
                          26 * size_coef * 2,texture_size, texture_size*(1 + size_coef)));
-    if(_dx < 0 && Keyboard::isKeyPressed(sf::Keyboard::Right)) _sprite.setTextureRect(IntRect(345,
+    if(_dx < 0 && (Kb::isKeyPressed(Kb::Right) || Kb::F)) _sprite.setTextureRect(IntRect(345,
                          26 * size_coef * 2,-texture_size, texture_size*(1 + size_coef)));
     else if(_dx < 0) _sprite.setTextureRect(IntRect(301 - 31 * int(_current_frame) + texture_size,
                          26 * size_coef * 2, -texture_size, texture_size*(1 + size_coef)));
@@ -80,22 +81,23 @@ void Player::animation(){
 }
 
 void Player::playerMoves(){
+    using Kb = Keyboard;
     if(_hit_box.left <= offsetX) { _hit_box.left = offsetX; _dx = 0; }
-    else if(Keyboard::isKeyPressed(Keyboard::Left)){
+    else if(Kb::isKeyPressed(Kb::Left) || Kb::isKeyPressed(Kb::Key::A)){
         if(_dx > -3.5) _dx -= 0.05;
     }
     else if(_dx<0){
         _dx += 0.03;
         if(_dx > 0) _dx = 0;
     }
-    if(Keyboard::isKeyPressed(Keyboard::Right)){
+    if(Kb::isKeyPressed(Kb::Right) || Kb::isKeyPressed(Kb::Key::D)){
         if(_dx < 3.5) _dx += 0.05;
     }
     else if(_dx>0){
         _dx -= 0.03;
         if(_dx < 0) _dx = 0;
     }
-    if(Keyboard::isKeyPressed(Keyboard::Up) && _on_ground){
+    if((Kb::isKeyPressed(Keyboard::Up) || Kb::isKeyPressed(Kb::W)) && _on_ground){
         _dy -= 7.1;
         _on_ground = false;
         notify(*this, oEvent::PLAYER_JUMP);
