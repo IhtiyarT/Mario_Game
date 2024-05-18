@@ -16,7 +16,7 @@ Mushroom::Mushroom(float left, float top)
 
     _is_alive = true;
     _name = "Bonus";
-    _dx = 1;
+    _dx = 2;
 
     addObserver(&_s_observer);
 
@@ -28,9 +28,9 @@ Mushroom::~Mushroom(){
 }
 
 void Mushroom::update(){
-    timer += 0.05;
+    timer += 0.1;
     if(int(timer) <= 7){
-        _hit_box.top -= 0.2f;
+        _hit_box.top -= 0.4f;
         _sprite.setPosition(_hit_box.left - offsetX, _hit_box.top);
     }
     else{
