@@ -4,7 +4,7 @@
 Mushroom::Mushroom(float left, float top)
 {
     sf::Image img;
-    img.loadFromFile("items_set.png");
+    img.loadFromFile("../items_set.png");
     img.createMaskFromColor(sf::Color(146, 144, 255));
 
     mushroom_texture.loadFromImage(img);

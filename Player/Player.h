@@ -5,9 +5,6 @@
 #include "Sounds.h"
 #include "Effects.h"
 
-#define sizeX 1280
-#define sizeY 704
-
 class Player : public Creature, public Subject
 {
 public:

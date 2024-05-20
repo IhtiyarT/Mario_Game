@@ -6,7 +6,7 @@ const double MS_PER_UPDATE = 16;
 
 Game::Game() : _win(sf::VideoMode(sizeX, sizeY), "Mario.exe"), _effects(_win)
 {
-    _music.openFromFile("assets/sound/bgm.wav");
+    _music.openFromFile("../assets/sound/bgm.wav");
     _music.play();
     _music.setLoop(true);
 }
@@ -27,13 +27,13 @@ bool Game::windowRendering(){
     Texture mario_texture;
 
     Image tile_set;
-    tile_set.loadFromFile("Tileset.png");
+    tile_set.loadFromFile("../Tileset.png");
     tile_set.createMaskFromColor(sf::Color(148, 148, 255));
     tile_set.createMaskFromColor(sf::Color(0, 41, 140));
 
-    main_texture.loadFromFile("Mario_tileset.png");
+    main_texture.loadFromFile("../Mario_tileset.png");
     sec_texture.loadFromImage(tile_set);
-    mario_texture.loadFromFile("mario.png");
+    mario_texture.loadFromFile("../mario.png");
 
     Player player(mario_texture, _effects);
 

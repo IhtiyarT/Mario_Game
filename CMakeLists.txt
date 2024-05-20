@@ -7,15 +7,6 @@ find_package(SFML 2.6.1 REQUIRED graphics network audio window system)
 set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc")
 set(CMAKE_CXX_STANDARD 17)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Mario_tileset.png
-        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Tileset.png
-        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/items_set.png
-        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mario.png
-        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
-
 include_directories(Creature
                     Blocks
                     Enemy

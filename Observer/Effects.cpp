@@ -5,11 +5,11 @@ Effects::Effects(sf::RenderWindow &win) : _win{&win}
 {
     sf::Image image;
 
-    if(!image.loadFromFile("items_set.png")) std::cout << "Error! set of items";
+    if(!image.loadFromFile("../items_set.png")) std::cout << "Error! set of items";
     image.createMaskFromColor(sf::Color(146, 144, 255));
     _items_texture.loadFromImage(image);
 
-    if(!_mario_texture.loadFromFile("mario.png")) std::cout << "Error! set of mario";
+    if(!_mario_texture.loadFromFile("../mario.png")) std::cout << "Error! set of mario";
 
     _sprite.setScale(sf::Vector2f(2, 2));
 }

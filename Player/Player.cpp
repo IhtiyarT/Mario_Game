@@ -64,12 +64,12 @@ void Player::animation(){
     if(_current_frame > 3) _current_frame -= 3;
     using Kb = Keyboard;
 
-    if(_dx > 0 && (Kb::isKeyPressed(Kb::Left) || Kb::isKeyPressed(Kb::A))) _sprite.setTextureRect(
+    if(_dx > 0 && Kb::isKeyPressed(Kb::Left) || (_dx > 0 && Kb::isKeyPressed(Kb::A))) _sprite.setTextureRect(
        IntRect(329,26 * size_coef * 2,texture_size, texture_size*(1 + size_coef)));
     else if(_dx > 0) _sprite.setTextureRect(IntRect(301 - 31 * int(_current_frame),
                          26 * size_coef * 2,texture_size, texture_size*(1 + size_coef)));
-    if(_dx < 0 && (Kb::isKeyPressed(Kb::Right) || Kb::F)) _sprite.setTextureRect(IntRect(345,
-                         26 * size_coef * 2,-texture_size, texture_size*(1 + size_coef)));
+    if(_dx < 0 && (Kb::isKeyPressed(Kb::Right) || Kb::isKeyPressed(Kb::D))) _sprite.setTextureRect(
+       IntRect(345,26 * size_coef * 2,-texture_size, texture_size*(1 + size_coef)));
     else if(_dx < 0) _sprite.setTextureRect(IntRect(301 - 31 * int(_current_frame) + texture_size,
                          26 * size_coef * 2, -texture_size, texture_size*(1 + size_coef)));
     if(_dx == 0) _sprite.setTextureRect(IntRect(209, 26 * size_coef * 2,

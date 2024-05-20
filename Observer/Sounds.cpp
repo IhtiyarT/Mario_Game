@@ -1,7 +1,7 @@
 #include "Sounds.h"
 
 void Sounds::onNotify(const Creature &creature, oEvent event){
-    std::string path = "assets/sound/";
+    std::string path = "../assets/sound/";
     switch(event){
         case oEvent::PLAYER_JUMP:
             sound_buf.loadFromFile(path + "jump.wav");
@@ -18,13 +18,13 @@ void Sounds::onNotify(const Creature &creature, oEvent event){
             sound.setBuffer(sound_buf);
             sound.play();
             return;
-        case oEvent::COIN_FALL:
-            sound_buf.loadFromFile(path + "coin.wav");
+        case oEvent::MUSHROOM_ATE:
+            sound_buf.loadFromFile(path + "mushroom.wav");
             sound.setBuffer(sound_buf);
             sound.play();
             return;
-        case oEvent::MUSHROOM_ATE:
-            sound_buf.loadFromFile(path + "mushroom.wav");
+        case oEvent::COIN_FALL:
+            sound_buf.loadFromFile(path + "coin.wav");
             sound.setBuffer(sound_buf);
             sound.play();
             return;
